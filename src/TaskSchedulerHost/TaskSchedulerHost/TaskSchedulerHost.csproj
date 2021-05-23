@@ -1,25 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskScheduler\TaskScheduler.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Db\Repository\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <ProjectReference Include="..\TaskSchedulerModel\TaskSchedulerModel.csproj" />
+    <ProjectReference Include="..\TaskSchedulerRespository\TaskSchedulerRespository.csproj" />
   </ItemGroup>
 
 </Project>

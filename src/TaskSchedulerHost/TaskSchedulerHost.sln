@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSchedulerHost", "TaskSchedulerHost\TaskSchedulerHost.csproj", "{AD6D5C4C-881F-425E-9D82-FB2DA3E85D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerHost", "TaskSchedulerHost\TaskSchedulerHost.csproj", "{AD6D5C4C-881F-425E-9D82-FB2DA3E85D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskScheduler", "TaskScheduler\TaskScheduler.csproj", "{049DB9D0-7BD2-4848-99E0-ED2933DFEB0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerModel", "TaskSchedulerModel\TaskSchedulerModel.csproj", "{478BB13D-EC68-41CC-BA95-E485CCDB2251}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRespository", "TaskSchedulerRespository\TaskSchedulerRespository.csproj", "{07CED5ED-3598-46A2-8E6C-19D3C0085AB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRespositoryTest", "TaskSchedulerRespositoryTest\TaskSchedulerRespositoryTest.csproj", "{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +21,18 @@ Global
 		{AD6D5C4C-881F-425E-9D82-FB2DA3E85D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD6D5C4C-881F-425E-9D82-FB2DA3E85D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD6D5C4C-881F-425E-9D82-FB2DA3E85D48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{049DB9D0-7BD2-4848-99E0-ED2933DFEB0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{049DB9D0-7BD2-4848-99E0-ED2933DFEB0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{049DB9D0-7BD2-4848-99E0-ED2933DFEB0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{049DB9D0-7BD2-4848-99E0-ED2933DFEB0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{478BB13D-EC68-41CC-BA95-E485CCDB2251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{478BB13D-EC68-41CC-BA95-E485CCDB2251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{478BB13D-EC68-41CC-BA95-E485CCDB2251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{478BB13D-EC68-41CC-BA95-E485CCDB2251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07CED5ED-3598-46A2-8E6C-19D3C0085AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CED5ED-3598-46A2-8E6C-19D3C0085AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07CED5ED-3598-46A2-8E6C-19D3C0085AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CED5ED-3598-46A2-8E6C-19D3C0085AB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

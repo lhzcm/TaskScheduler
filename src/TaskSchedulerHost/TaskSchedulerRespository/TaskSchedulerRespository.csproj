@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Migrations\20210523104042_TaskScheduler2.cs" />
+    <Compile Include="Migrations\20210523104042_TaskScheduler2.Designer.cs" />
+    <Compile Include="Migrations\20210523104551_TaskScheduler3.cs" />
+    <Compile Include="Migrations\20210523104551_TaskScheduler3.Designer.cs" />
+    <Compile Include="Migrations\TaskSchedulerDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.3.21201.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.3.21201.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.3.21201.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.0.0-preview.3.21201.2-06" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSchedulerModel\TaskSchedulerModel.csproj" />
+  </ItemGroup>
+
+</Project>

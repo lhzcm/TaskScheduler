@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskSchedulerHost.Db;
-using TaskSchedulerHost.Db.Models;
+using TaskSchedulerModel.Models;
+using TaskSchedulerRespository.DbContexts;
 
 namespace TaskSchedulerHost.Controllers
 {
@@ -27,10 +27,11 @@ namespace TaskSchedulerHost.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Task> Get()
+        public IEnumerable<TaskInfo> Get()
         {
             var rng = new Random();
-            return _db.Tasks.ToList();
+           
+            return _db.TaskInfos.ToList();
             //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             //{
             //    Date = DateTime.Now.AddDays(index),
