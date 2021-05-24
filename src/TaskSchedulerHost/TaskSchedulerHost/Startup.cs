@@ -40,6 +40,9 @@ namespace TaskSchedulerHost
                 //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 //c.IncludeXmlComments(xmlPath);
             });
+            services.AddOptions();
+            var a = Configuration.GetValue<Config>("AppConfig:Config");
+            services.Configure<Config>(Configuration.GetSection("AppConfig:Config"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
