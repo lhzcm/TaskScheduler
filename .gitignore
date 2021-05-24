@@ -4,7 +4,7 @@ src/TaskSchedulerHost/TaskSchedulerHost/bin/
 src/TaskSchedulerHost/TaskSchedulerHost/obj/
 src/TaskSchedulerHost/TaskSchedulerModel/bin/
 src/TaskSchedulerHost/TaskSchedulerModel/obj/
-src/TaskSchedulerHost/TaskSchedulerRepository/bin/
-src/TaskSchedulerHost/TaskSchedulerRepository/obj/
-src/TaskSchedulerHost/TaskSchedulerRepositoryTest/bin/
-src/TaskSchedulerHost/TaskSchedulerRepositoryTest/obj/
+src/TaskSchedulerHost/TaskSchedulerRespository/bin/
+src/TaskSchedulerHost/TaskSchedulerRespository/obj/
+src/TaskSchedulerHost/TaskSchedulerRespositoryTest/bin/
+src/TaskSchedulerHost/TaskSchedulerRespositoryTest/obj/
