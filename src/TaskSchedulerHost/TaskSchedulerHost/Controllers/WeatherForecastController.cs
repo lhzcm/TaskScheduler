@@ -30,7 +30,7 @@ namespace TaskSchedulerHost.Controllers
         public IEnumerable<TaskInfo> Get()
         {
             var rng = new Random();
-           
+
             return _db.TaskInfos.ToList();
             //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             //{

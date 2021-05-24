@@ -35,12 +35,30 @@ namespace TaskSchedulerRespository.Respositorys
 
         public virtual List<TEntity> Find(Expression<Func<TEntity, bool>> whereCase)
         {
-            return _db.Set<TEntity>().Where(whereCase).ToList();
+        
+            var a =  whereCase.Reduce();
+            a = a.ReduceExtensions();
+            a = a.Reduce();
+            
+            return _db.Set<TEntity>().Where(whereCase).OrderBy(n=>n).ToList();
         }
 
-        public virtual List<TEntity> Find(int page, int pagesize, Expression<Func<TEntity, bool>> whereCase)
+        public virtual List<TEntity> Find<TSelector>(int page, int pagesize, Expression<Func<TEntity, bool>> whereCase, Expression<Func<TEntity, TSelector>> orderby = null, bool isASC = true)
         {
-            return _db.Set<TEntity>().Where(whereCase).Skip(page * pagesize).Take(pagesize).ToList();
+            IQueryable<TEntity> query = _db.Set<TEntity>().Where(whereCase);
+            if (orderby != null)
+            {
+                if (isASC)
+                {
+                    query = query.OrderBy(orderby);
+                }
+                else
+                {
+                    query = query.OrderByDescending(orderby);
+                }
+            }
+            
+            return query.Skip((page - 1) * pagesize).Take(pagesize).ToList();
         }
 
         public virtual int Insert(List<TEntity> data)
@@ -65,6 +83,11 @@ namespace TaskSchedulerRespository.Respositorys
         {
            
             return ((EntityQueryable<TEntity>)_db.Set<TEntity>().Where(whereCase)).Update(n => updateColumn);
+        }
+
+        public TEntity FindFirst(Expression<Func<TEntity, bool>> whereCase)
+        {
+            return _db.Set<TEntity>().Where(whereCase).First();
         }
 
         public T DbContext => _db;

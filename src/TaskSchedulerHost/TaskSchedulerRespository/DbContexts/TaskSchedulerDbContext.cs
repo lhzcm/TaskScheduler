@@ -28,6 +28,10 @@ namespace TaskSchedulerRespository.DbContexts
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.UseIdentityColumns(1,1);
+            modelBuilder.Entity<TaskInfo>().Property(l => l.WriteTime).HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<TaskInfo>().Property(l => l.UpdateTime).HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<TaskInfo>().Property(l => l.TaskGuid).HasDefaultValue(Guid.NewGuid());
+            modelBuilder.Entity<LogInfo>().Property(l => l.WriteTime).HasDefaultValue(DateTime.Now);
         }
 
         public virtual DbSet<TaskInfo> TaskInfos { get; set; }

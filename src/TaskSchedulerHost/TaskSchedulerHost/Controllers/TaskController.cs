@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ using TaskSchedulerRespository.Respositorys;
 
 namespace TaskSchedulerHost.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class TaskController : BaseController
     {
         private TaskRespository _respository;
@@ -16,16 +19,26 @@ namespace TaskSchedulerHost.Controllers
         {
             this._respository = respository;
         }
+
+        [HttpPost]
         public Result Add(TaskInfo task)
         {
-            if (_respository.Insert(task) > 0)
+            try
             {
-                return Success(task, "添加成功");
+                if (_respository.Insert(task) > 0)
+                {
+                    return Success(task, "添加成功");
+                }
+                else
+                {
+                    return Fail("添加失败");
+                }
             }
-            else
+            catch (Exception)
             {
-                return Fail("添加失败");
+                return Fail("系统错误");
             }
+        
         }
     }
 }

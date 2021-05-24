@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace TaskSchedulerModel.Models
         /// 添加时间
         /// </summary>
         [Column(TypeName = "datetime")]
+        
         public DateTime WriteTime { get; set; }
 
     }
