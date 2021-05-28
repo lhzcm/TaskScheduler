@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,5 +46,27 @@ namespace TaskSchedulerModel.Models
         /// </summary>
         [Column(TypeName = "datetime")]
         public DateTime WriteTime { get; set; }
+
+        /// <summary>
+        /// 进程信息
+        /// </summary>
+        [NotMapped]
+        public Process Process { get; set; }
+
+        /// <summary>
+        /// 程序是否正在运行
+        /// </summary>
+        [NotMapped]
+        public bool IsRuning 
+        {
+            get 
+            {
+                if (Process != null && Process.HasExited)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }

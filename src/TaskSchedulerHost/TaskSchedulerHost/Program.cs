@@ -23,6 +23,11 @@ namespace TaskSchedulerHost
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //ConfigurationBuilder bulid = new ConfigurationBuilder();
+                    //bulid.AddJsonFile("appsettings.json");
+                    //var config = bulid.Build();
+                    //webBuilder.UseConfiguration(config);
+
                     webBuilder.UseStartup<Startup>();
                 });
     }

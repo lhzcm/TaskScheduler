@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskSchedulerModel\TaskSchedulerModel.csproj" />
     <ProjectReference Include="..\TaskSchedulerRespository\TaskSchedulerRespository.csproj" />
+    <ProjectReference Include="..\TaskScheduler\TaskScheduler.csproj" />
   </ItemGroup>
 
 </Project>

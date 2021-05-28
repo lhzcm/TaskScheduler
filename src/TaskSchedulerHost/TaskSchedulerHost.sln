@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRespository", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRespositoryTest", "TaskSchedulerRespositoryTest\TaskSchedulerRespositoryTest.csproj", "{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskScheduler", "TaskScheduler\TaskScheduler.csproj", "{B5A366E6-523F-4F9D-A0CA-1D4CD884575B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5A366E6-523F-4F9D-A0CA-1D4CD884575B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A366E6-523F-4F9D-A0CA-1D4CD884575B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5A366E6-523F-4F9D-A0CA-1D4CD884575B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A366E6-523F-4F9D-A0CA-1D4CD884575B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

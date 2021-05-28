@@ -7,6 +7,14 @@ namespace TaskSchedulerHost
 {
     public class Config
     {
-        public string Test { get; set; }
+        /// <summary>
+        /// 任务App的路径
+        /// </summary>
+        public string TaskAppPath { get; set; }
+
+        /// <summary>
+        /// 可执行文件的路径
+        /// </summary>
+        public string ExecAppFile { get; set; }
     }
 }

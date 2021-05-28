@@ -34,13 +34,13 @@ namespace TaskSchedulerRespository.Respositorys
         }
 
         public virtual List<TEntity> Find(Expression<Func<TEntity, bool>> whereCase)
-        {
-        
-            var a =  whereCase.Reduce();
-            a = a.ReduceExtensions();
-            a = a.Reduce();
-            
+        { 
             return _db.Set<TEntity>().Where(whereCase).OrderBy(n=>n).ToList();
+        }
+
+        public virtual List<TEntity> FindAll()
+        {
+            return _db.Set<TEntity>().ToList();
         }
 
         public virtual List<TEntity> Find<TSelector>(int page, int pagesize, Expression<Func<TEntity, bool>> whereCase, Expression<Func<TEntity, TSelector>> orderby = null, bool isASC = true)

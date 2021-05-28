@@ -29,6 +29,9 @@ namespace TaskSchedulerHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var config = Configuration.GetSection("AppConfig").Get<Config>();
+            services.AddSingleton<Config>(config);
+
             services.AddDbContext<TaskSchedulerDbContext>((op) => op.UseSqlServer(Configuration.GetConnectionString("TaskScheduler")));
             services.AddScoped<TaskRespository>();
             services.AddControllers();
@@ -41,8 +44,6 @@ namespace TaskSchedulerHost
                 //c.IncludeXmlComments(xmlPath);
             });
             services.AddOptions();
-            var a = Configuration.GetValue<Config>("AppConfig:Config");
-            services.Configure<Config>(Configuration.GetSection("AppConfig:Config"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

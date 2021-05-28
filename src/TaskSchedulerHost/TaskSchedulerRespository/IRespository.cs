@@ -18,6 +18,12 @@ namespace TaskSchedulerRespository
         public List<TEntity> Find(Expression<Func<TEntity, bool>> whereCase);
 
         /// <summary>
+        /// 查询全部数据
+        /// </summary>
+        /// <returns>查询数据</returns>
+        public List<TEntity> FindAll();
+
+        /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="page">页码</param>
