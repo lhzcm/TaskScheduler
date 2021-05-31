@@ -7,6 +7,7 @@ namespace TaskScheduler
     public class TaskManager
     {
         public static readonly List<TaskInfo> Tasks = new List<TaskInfo>();
+
         public static void ReFulsh(List<TaskInfo> tasks)
         {
             if (tasks == null || tasks.Count <= 0)
@@ -19,5 +20,7 @@ namespace TaskScheduler
                 }
             }
         }
+
+        
     }
 }

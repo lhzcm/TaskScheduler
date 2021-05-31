@@ -9,6 +9,11 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
+using TaskSchedulerRespository.Respositorys;
+using Microsoft.Extensions.DependencyInjection;
+using TaskSchedulerHost.Task;
+using TaskSchedulerHost.Controllers;
 
 namespace TaskSchedulerHost
 {
@@ -16,11 +21,20 @@ namespace TaskSchedulerHost
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host =CreateHostBuilder(args).Build();
+            TaskLoggerPerformer.Startup(host.Services);
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+            Host.CreateDefaultBuilder(args).ConfigureLogging((context, loggingBuilder) =>
+                {
+                    loggingBuilder.AddFilter("System", LogLevel.Information);
+                    loggingBuilder.AddFilter("Microsoft", LogLevel.Information);
+                    var path = context.HostingEnvironment.ContentRootPath;
+                    loggingBuilder.AddLog4Net($"{path}/log4net.config");//ÅäÖÃÎÄ¼þ
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     //ConfigurationBuilder bulid = new ConfigurationBuilder();

@@ -5,13 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="log4net" Version="2.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="5.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TaskSchedulerModel\TaskSchedulerModel.csproj" />
     <ProjectReference Include="..\TaskSchedulerRespository\TaskSchedulerRespository.csproj" />
     <ProjectReference Include="..\TaskScheduler\TaskScheduler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App\" />
   </ItemGroup>
 
 </Project>

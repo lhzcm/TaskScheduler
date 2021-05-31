@@ -10,6 +10,7 @@ using TaskSchedulerModel.Models;
 using TaskSchedulerRespository.Respositorys;
 using System.IO.Compression;
 using TaskScheduler;
+using Microsoft.Extensions.Logging;
 
 namespace TaskSchedulerHost.Controllers
 {
@@ -19,10 +20,12 @@ namespace TaskSchedulerHost.Controllers
     {
         private TaskRespository _respository;
         private Config _config;
-        public TaskController(TaskRespository respository, Config config)
+        private ILogger<TaskController> _logger;
+        public TaskController(TaskRespository respository, Config config, ILogger<TaskController> logger)
         {
             this._respository = respository;
             this._config = config;
+            this._logger = logger;
         }
 
         [HttpPost]
@@ -46,13 +49,14 @@ namespace TaskSchedulerHost.Controllers
                         archive.ExtractToDirectory(path);
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
                     _respository.DbContext.Database.RollbackTransaction();
                     if (System.IO.Directory.Exists(path))
                     {
                         System.IO.Directory.Delete(path, true);
                     }
+                    _logger.LogError(ex.Message + ex.StackTrace);
                     return Fail("解压文件失败");
                 }
                 try
@@ -67,6 +71,7 @@ namespace TaskSchedulerHost.Controllers
                     {
                         System.IO.Directory.Delete(path, true);
                     }
+                    _logger.LogError(ex.Message + ex.StackTrace);
                     return Fail("复制执行文件失败");
                 }
                 if (_respository.Update(task) <= 0)
@@ -79,6 +84,7 @@ namespace TaskSchedulerHost.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message + ex.StackTrace);
                 return Fail("系统错误");
             }
         }
@@ -94,6 +100,7 @@ namespace TaskSchedulerHost.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message + ex.StackTrace);
                 return Fail("系统错误");
             }
         }
@@ -108,6 +115,7 @@ namespace TaskSchedulerHost.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message + ex.StackTrace);
                 return Fail("系统错误");
             }
         }
@@ -128,6 +136,7 @@ namespace TaskSchedulerHost.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message + ex.StackTrace);
                 return Fail("系统错误");
             }
         }
