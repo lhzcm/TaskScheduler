@@ -23,7 +23,7 @@ namespace TaskSchedulerHost
         {
             var host =CreateHostBuilder(args).Build();
             TaskLoggerPerformer.Startup(host.Services);
-
+            TaskManager.Init(host.Services);
             host.Run();
         }
 

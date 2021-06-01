@@ -14,6 +14,7 @@ using TaskSchedulerRespository.DbContexts;
 using System.Reflection;
 using System.IO;
 using TaskSchedulerRespository.Respositorys;
+using TaskSchedulerHost.Task;
 
 namespace TaskSchedulerHost
 {
@@ -35,6 +36,7 @@ namespace TaskSchedulerHost
             services.AddDbContext<TaskSchedulerDbContext>((op) => op.UseSqlServer(Configuration.GetConnectionString("TaskScheduler")));
             services.AddScoped<TaskRespository>();
             services.AddControllers();
+            services.AddScoped<TaskManager>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c=> {

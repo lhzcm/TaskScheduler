@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,6 +61,24 @@ namespace TaskSchedulerHost.Task
         }
 
         /// <summary>
+        /// 按条件移除任务
+        /// </summary>
+        /// <param name="task"></param>
+        public void Remove(Func<TaskInfo, bool> whereCase)
+        {
+            if (whereCase == null)
+                return;
+            lock (_tasks)
+            {
+                var target = _tasks.Where(whereCase).ToList();
+                foreach (var item in target)
+                {
+                    _tasks.Remove(item);
+                }
+            }
+        }
+
+        /// <summary>
         /// 移除多个任务
         /// </summary>
         /// <param name="tasks"></param>
@@ -88,7 +107,7 @@ namespace TaskSchedulerHost.Task
                 if (info == null)
                 {
                     //添加数据库中存在内存中没有的任务
-                    Add(info);
+                    Add(item);
                 }
                 else if (!info.IsRuning)
                 {
@@ -117,6 +136,28 @@ namespace TaskSchedulerHost.Task
             return _tasks.ToList();
         }
 
+        /// <summary>
+        /// 按条件获取任务列表
+        /// </summary>
+        /// <returns>任务列表</returns>
+        public List<TaskInfo> GetTasks(Func<TaskInfo, bool> whereCase)
+        {
+            if (whereCase == null)
+                return new List<TaskInfo>();
+            return _tasks.Where(whereCase).ToList();
+        }
 
+
+        public static void Init(IServiceProvider serverProvider)
+        {
+            if (_tasks.Count > 0)
+                return;
+
+            using (var scope = serverProvider.CreateScope())
+            {
+                var taskManager = new TaskManager(scope.ServiceProvider.GetService<TaskRespository>());
+                taskManager.ReFulsh();
+            }
+        }
     }
 }

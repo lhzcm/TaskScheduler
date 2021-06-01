@@ -9,8 +9,8 @@ using TaskSchedulerHost.Models;
 using TaskSchedulerModel.Models;
 using TaskSchedulerRespository.Respositorys;
 using System.IO.Compression;
-using TaskScheduler;
 using Microsoft.Extensions.Logging;
+using TaskSchedulerHost.Task;
 
 namespace TaskSchedulerHost.Controllers
 {
@@ -21,11 +21,13 @@ namespace TaskSchedulerHost.Controllers
         private TaskRespository _respository;
         private Config _config;
         private ILogger<TaskController> _logger;
-        public TaskController(TaskRespository respository, Config config, ILogger<TaskController> logger)
+        private TaskManager _manager;
+        public TaskController(TaskRespository respository, Config config, ILogger<TaskController> logger, TaskManager manager)
         {
             this._respository = respository;
             this._config = config;
             this._logger = logger;
+            this._manager = manager;
         }
 
         [HttpPost]
@@ -80,6 +82,8 @@ namespace TaskSchedulerHost.Controllers
                 }
 
                 _respository.DbContext.Database.CommitTransaction();
+
+                _manager.Add(task);
                 return Success(task);
             }
             catch (Exception ex)
@@ -94,9 +98,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                var tasks = _respository.FindAll();
-                TaskManager.ReFulsh(tasks);
-                return Success(TaskManager.Tasks);
+                return Success(_manager.GetTasks());
             }
             catch (Exception ex)
             {
@@ -110,7 +112,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                var task = _respository.FindFirst(n => n.Id == Id);
+                var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
                 return Success(task);
             }
             catch (Exception ex)
@@ -125,8 +127,14 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
+                var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
+                if (task != null && task.IsRuning)
+                {
+                    return Fail("删除失败，程序正在运行，请先停止程序");
+                }
                 if (_respository.Delete(n => n.Id == Id) > 0)
                 {
+                    
                     return Success(null, "删除成功");
                 }
                 else
