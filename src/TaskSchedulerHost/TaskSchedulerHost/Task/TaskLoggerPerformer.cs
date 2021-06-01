@@ -45,7 +45,6 @@ namespace TaskSchedulerHost.Task
                         pipe.ReadMode = PipeTransmissionMode.Byte;
                         using (StreamReader reader = new StreamReader(pipe))
                         {
-                            
                             string str = reader.ReadToEnd();
                             LogInfo loginfo = System.Text.Json.JsonSerializer.Deserialize<LogInfo>(str);
                             _logger.Add(loginfo);
