@@ -8,3 +8,6 @@ src/TaskSchedulerHost/TaskSchedulerRespository/bin/
 src/TaskSchedulerHost/TaskSchedulerRespository/obj/
 src/TaskSchedulerHost/TaskSchedulerRespositoryTest/bin/
 src/TaskSchedulerHost/TaskSchedulerRespositoryTest/obj/
+src/TaskSchedulerHost/TaskSchedulerApp/bin/
+src/TaskSchedulerHost/TaskSchedulerApp/obj/
+src/TaskSchedulerHost/.vs/

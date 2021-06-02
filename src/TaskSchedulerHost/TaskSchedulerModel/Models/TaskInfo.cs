@@ -51,6 +51,7 @@ namespace TaskSchedulerModel.Models
         /// 进程信息
         /// </summary>
         [NotMapped]
+        [System.Text.Json.Serialization.JsonIgnore]
         public Process Process { get; set; }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace TaskSchedulerModel.Models
         {
             get 
             {
-                if (Process != null && Process.HasExited)
+                if (Process != null && !Process.HasExited)
                 {
                     return true;
                 }

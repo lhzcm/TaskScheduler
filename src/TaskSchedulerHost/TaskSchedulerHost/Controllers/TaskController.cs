@@ -11,6 +11,7 @@ using TaskSchedulerRespository.Respositorys;
 using System.IO.Compression;
 using Microsoft.Extensions.Logging;
 using TaskSchedulerHost.Task;
+using System.Diagnostics;
 
 namespace TaskSchedulerHost.Controllers
 {
@@ -30,7 +31,63 @@ namespace TaskSchedulerHost.Controllers
             this._manager = manager;
         }
 
-        [HttpPost]
+        [HttpPost("Run")]
+        public Result Run(int Id)
+        {
+            try
+            {
+                var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
+                if (task == null)
+                {
+                    return Fail("运行失败，没有找到任务");
+                }
+                if (task.IsRuning)
+                {
+                    return Fail("运行失败，任务正在运行中");
+                }
+                if (task.Process == null)
+                {
+                    task.Process = Process.Start(task.ExecFile);
+                }
+                else
+                {
+                    task.Process.Start();
+                }
+                return Success("程序运行成功");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return Fail("系统错误");
+            }
+        }
+
+        [HttpPost("Kill")]
+        public Result Kill(int Id)
+        {
+            try
+            {
+                var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
+                if (task == null)
+                {
+                    return Fail("退出失败，没有找到任务");
+                }
+                if (!task.IsRuning)
+                {
+                    return Fail("退出失败，任务没有运行");
+                }
+                task.Process.Kill();
+
+                return Success("程序退出成功");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return Fail("系统错误");
+            }
+        }
+
+        [HttpPost("Add")]
         public Result Add(string Name, IFormFile file)
         {
             try
@@ -78,6 +135,7 @@ namespace TaskSchedulerHost.Controllers
                 }
                 if (_respository.Update(task) <= 0)
                 {
+                    _respository.DbContext.Database.RollbackTransaction();
                     return Fail("更新执行文件路径失败");
                 }
 
@@ -132,15 +190,100 @@ namespace TaskSchedulerHost.Controllers
                 {
                     return Fail("删除失败，程序正在运行，请先停止程序");
                 }
-                if (_respository.Delete(n => n.Id == Id) > 0)
+                _respository.DbContext.Database.BeginTransaction();
+                if (_respository.Delete(n => n.Id == Id) <= 0)
                 {
-                    
-                    return Success(null, "删除成功");
-                }
-                else
-                {
+                    _respository.DbContext.Database.RollbackTransaction();
                     return Fail("删除失败");
                 }
+                var path = _config.TaskAppPath + task.TaskGuid.ToString("N");
+                if (Directory.Exists(path))
+                {
+                    try
+                    {
+                        Directory.Delete(path, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        _respository.DbContext.Database.RollbackTransaction();
+                        _logger.LogError(ex.Message + ex.StackTrace);
+                        return Fail("删除失败, 删除文件夹（"+path+"）失败！");
+                    }
+                }
+                _respository.DbContext.Database.CommitTransaction();
+                return Success(null, "删除成功");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return Fail("系统错误");
+            }
+        }
+
+        [HttpPatch]
+        public Result UpdateLib(int Id, IFormFile file)
+        {
+            try
+            {
+                TaskInfo task = _manager.GetTasks(n=>n.Id == Id).FirstOrDefault();
+                if (task == null)
+                {
+                    return Fail("上传更新失败，没有找到改任务");
+                }
+                if (task.IsRuning)
+                {
+                    return Fail("上传更新失败,程序正在运行，请停止后更新");
+                }
+
+                var path = _config.TaskAppPath + task.TaskGuid.ToString("N");
+
+                if (Directory.Exists(path))
+                {
+                    try
+                    {
+                        Directory.Delete(path, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message + ex.StackTrace);
+                        return Fail("更新失败，删除旧文件失败");
+                    }
+                }
+                try
+                {
+                    using (ZipArchive archive = new ZipArchive(file.OpenReadStream()))
+                    {
+                        System.IO.Directory.CreateDirectory(path);
+                        archive.ExtractToDirectory(path);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (System.IO.Directory.Exists(path))
+                    {
+                        System.IO.Directory.Delete(path, true);
+                    }
+                    _logger.LogError(ex.Message + ex.StackTrace);
+                    return Fail("解压文件失败");
+                }
+                try
+                {
+                    var execFile = path + "/" + task.Name + Path.GetExtension(_config.ExecAppFile);
+                    System.IO.File.Copy(_config.ExecAppFile, execFile);
+                }
+                catch (Exception ex)
+                {
+                    if (System.IO.Directory.Exists(path))
+                    {
+                        System.IO.Directory.Delete(path, true);
+                    }
+                    _logger.LogError(ex.Message + ex.StackTrace);
+                    return Fail("复制执行文件失败");
+                }
+
+                task.UpdateTime = DateTime.Now;
+                _respository.Update(n => n.Id == task.Id, n=> new TaskInfo { UpdateTime = DateTime.Now});
+                return Success(task);
             }
             catch (Exception ex)
             {

@@ -79,10 +79,10 @@ namespace TaskSchedulerRespository.Respositorys
             return _db.SaveChanges();
         }
 
-        public virtual int Update(Expression<Func<TEntity, bool>> whereCase, TEntity updateColumn)
+        public virtual int Update(Expression<Func<TEntity, bool>> whereCase, Expression<Func<TEntity, TEntity>> updateColumn)
         {
            
-            return ((EntityQueryable<TEntity>)_db.Set<TEntity>().Where(whereCase)).Update(n => updateColumn);
+            return ((EntityQueryable<TEntity>)_db.Set<TEntity>().Where(whereCase)).Update(updateColumn);
         }
 
         public TEntity FindFirst(Expression<Func<TEntity, bool>> whereCase)

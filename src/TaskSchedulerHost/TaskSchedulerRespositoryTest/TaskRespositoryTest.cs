@@ -62,5 +62,18 @@ namespace TaskSchedulerRespositoryTest
           
             Assert.AreEqual(respository.Delete(n => n.Id < taskInfo.Id && n.Id >= taskInfo.Id - 2), 2);
         }
+
+
+        [TestMethod]
+        public void TestUpdate()
+        {
+            TaskRespository respository = new TaskRespository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
+
+            var taskInfo = new TaskInfo() { Name = "test", ExecFile = "" };
+            Assert.AreEqual(respository.Insert(taskInfo), 1);
+
+            var ret = respository.Update(n => n.Id == taskInfo.Id, n => new TaskInfo { UpdateTime = DateTime.Now });
+            Assert.AreEqual(ret, 1);
+        }
     }
 }

@@ -80,6 +80,6 @@ namespace TaskSchedulerRespository
         /// <param name="whereCase">更新条件</param>
         /// <param name="column">更新列数据</param>
         /// <returns>受影响数据量</returns>
-        public int Update(Expression<Func<TEntity, bool>> whereCase, TEntity column);
+        public int Update(Expression<Func<TEntity, bool>> whereCase, Expression<Func<TEntity, TEntity>> updateColumn);
     }
 }
