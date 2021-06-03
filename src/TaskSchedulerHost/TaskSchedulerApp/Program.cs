@@ -10,14 +10,10 @@ namespace TaskSchedulerApp
     {
         static void Main(string[] args)
         {
-            if (args != null)
-            {
-                foreach (var item in args)
-                {
-                    Console.WriteLine(item);
-                }
-            }
-            Console.Read();
+            int appId = Convert.ToInt32(args[0]);
+            string path = args[1];
+            TaskApp.Init(appId, path).Run();
+            Environment.Exit(0);
         }
     }
 }

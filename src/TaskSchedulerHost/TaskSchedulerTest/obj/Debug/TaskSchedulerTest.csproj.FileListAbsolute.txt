@@ -1,0 +1,9 @@
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\bin\Debug\TaskSchedulerTest.dll
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\bin\Debug\TaskSchedulerTest.pdb
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\bin\Debug\TaskScheduler.dll
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\bin\Debug\TaskScheduler.pdb
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\obj\Debug\TaskSchedulerTest.csprojAssemblyReference.cache
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\obj\Debug\TaskSchedulerTest.csproj.CoreCompileInputs.cache
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\obj\Debug\TaskSchedulerTest.csproj.CopyComplete
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\obj\Debug\TaskSchedulerTest.dll
+G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerTest\obj\Debug\TaskSchedulerTest.pdb

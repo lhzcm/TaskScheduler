@@ -47,7 +47,13 @@ namespace TaskSchedulerHost.Controllers
                 }
                 if (task.Process == null)
                 {
-                    task.Process = Process.Start(task.ExecFile);
+                    List<string> args = new List<string>();
+                    args.Add(task.Id.ToString());
+                    var path = Path.Combine(Environment.CurrentDirectory, task.ExecFile.Replace("./", "").Replace("/", "\\"));
+                    path = Path.GetDirectoryName(path);
+                    args.Add(path);
+
+                    task.Process = Process.Start(task.ExecFile, String.Join(" ", args));
                 }
                 else
                 {

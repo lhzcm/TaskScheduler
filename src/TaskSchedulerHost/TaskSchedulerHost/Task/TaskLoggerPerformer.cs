@@ -46,7 +46,7 @@ namespace TaskSchedulerHost.Task
                         using (StreamReader reader = new StreamReader(pipe))
                         {
                             string str = reader.ReadToEnd();
-                            LogInfo loginfo = System.Text.Json.JsonSerializer.Deserialize<LogInfo>(str);
+                            LogInfo loginfo = LHZ.FastJson.JsonConvert.Deserialize<LogInfo>(str);
                             _logger.Add(loginfo);
                         }
                     }
