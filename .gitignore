@@ -12,3 +12,5 @@ src/TaskSchedulerHost/TaskSchedulerApp/bin/
 src/TaskSchedulerHost/TaskSchedulerApp/obj/
 src/TaskSchedulerHost/.vs/
 src/TaskSchedulerHost/TaskSchedulerHost/App/
+src/TaskSchedulerHost/TaskSchedulerTest/obj/
+src/TaskSchedulerHost/TaskSchedulerTest/bin/
