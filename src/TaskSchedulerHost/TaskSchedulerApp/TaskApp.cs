@@ -27,7 +27,6 @@ namespace TaskSchedulerApp
         {
             try
             {
-                Console.WriteLine(AppPath);
                 var files = Directory.EnumerateFiles(AppPath);
                 files = files.Where(n => Path.GetExtension(n).ToLower() == ".dll");
 
@@ -127,7 +126,6 @@ namespace TaskSchedulerApp
                         writer.Flush();
                     }
                     pipe.Close();
-                    Console.WriteLine("写入成功");
                     return true;
                 }
             }

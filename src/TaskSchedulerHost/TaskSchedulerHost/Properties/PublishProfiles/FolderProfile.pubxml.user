@@ -5,6 +5,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>G:\Study\dotnet\TaskScheduler\src\TaskSchedulerHost\TaskSchedulerHost\bin\Release\net5.0\publish\</_PublishTargetUrl>
-    <History>True|2021-06-04T03:36:07.6489816Z;True|2021-06-04T11:35:38.3221500+08:00;True|2021-06-04T11:15:08.9514991+08:00;</History>
+    <History>True|2021-06-04T06:02:53.8312257Z;True|2021-06-04T11:54:37.3755719+08:00;True|2021-06-04T11:51:59.8343433+08:00;True|2021-06-04T11:36:07.6489816+08:00;True|2021-06-04T11:35:38.3221500+08:00;True|2021-06-04T11:15:08.9514991+08:00;</History>
   </PropertyGroup>
 </Project>
