@@ -30,10 +30,12 @@ namespace TaskSchedulerRespositoryTest
             taskInfo = new TaskInfo() { Name = "test", ExecFile = ""};
             respository.Insert(taskInfo);
 
-            list = respository.Find(1, 3, n => n.Id > 0, n => n.Id, false); 
+            int total = 0;
+            list = respository.Find(1, 3, n => n.Id > 0, out total, n => n.Id, false); 
             Assert.IsNotNull(list);
             Assert.AreEqual(list.Count, 3);
             Assert.IsTrue(list[0].Id > list[1].Id);
+            Assert.IsTrue(total > 0);
         }
 
         [TestMethod]

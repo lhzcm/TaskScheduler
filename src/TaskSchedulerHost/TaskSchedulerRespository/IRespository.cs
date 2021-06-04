@@ -30,7 +30,7 @@ namespace TaskSchedulerRespository
         /// <param name="pagesize">页面大小</param>
         /// <param name="whereCase">查询条件</param>
         /// <returns>查询数据</returns>
-        public List<TEntity> Find<TSelector>(int page, int pagesize, Expression<Func<TEntity, bool>> whereCase, Expression<Func<TEntity, TSelector>> orderby = null, bool isASC = true);
+        public List<TEntity> Find<TSelector>(int page, int pagesize, Expression<Func<TEntity, bool>> whereCase, out int count, Expression<Func<TEntity, TSelector>> orderby = null, bool isASC = true);
 
         /// <summary>
         /// 根据条件查询第一个

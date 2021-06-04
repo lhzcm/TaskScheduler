@@ -43,9 +43,11 @@ namespace TaskSchedulerRespository.Respositorys
             return _db.Set<TEntity>().ToList();
         }
 
-        public virtual List<TEntity> Find<TSelector>(int page, int pagesize, Expression<Func<TEntity, bool>> whereCase, Expression<Func<TEntity, TSelector>> orderby = null, bool isASC = true)
+        public virtual List<TEntity> Find<TSelector>(int page, int pagesize, Expression<Func<TEntity, bool>> whereCase, out int count, Expression<Func<TEntity, TSelector>> orderby = null, bool isASC = true)
         {
-            IQueryable<TEntity> query = _db.Set<TEntity>().Where(whereCase);
+            count = _db.Set<TEntity>().Where(whereCase).Count();
+
+            IQueryable <TEntity> query = _db.Set<TEntity>().Where(whereCase);
             if (orderby != null)
             {
                 if (isASC)
