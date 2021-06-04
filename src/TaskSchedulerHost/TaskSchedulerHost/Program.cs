@@ -41,7 +41,7 @@ namespace TaskSchedulerHost
                     //bulid.AddJsonFile("appsettings.json");
                     //var config = bulid.Build();
                     //webBuilder.UseConfiguration(config);
-
+                    webBuilder.UseUrls("http://127.0.0.1:8686");
                     webBuilder.UseStartup<Startup>();
                 });
     }

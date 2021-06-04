@@ -16,5 +16,10 @@ namespace TaskSchedulerHost
         /// 可执行文件的路径
         /// </summary>
         public string ExecAppFile { get; set; }
+
+        /// <summary>
+        /// 可执行文件类库路径
+        /// </summary>
+        public string[] ExecLibFile { get; set; }
     }
 }

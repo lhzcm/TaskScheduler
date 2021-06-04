@@ -31,6 +31,10 @@ namespace TaskSchedulerHost.Controllers
             this._manager = manager;
         }
 
+        /// <summary>
+        /// 运行任务
+        /// </summary>
+        /// <param name="Id">任务id</param>
         [HttpPost("Run")]
         public Result Run(int Id)
         {
@@ -68,6 +72,10 @@ namespace TaskSchedulerHost.Controllers
             }
         }
 
+        /// <summary>
+        /// 停止任务
+        /// </summary>
+        /// <param name="Id">任务id</param>
         [HttpPost("Kill")]
         public Result Kill(int Id)
         {
@@ -93,6 +101,11 @@ namespace TaskSchedulerHost.Controllers
             }
         }
 
+        /// <summary>
+        /// 添加任务
+        /// </summary>
+        /// <param name="Name">任务名称</param>
+        /// <param name="file">任务程序集zip包</param>
         [HttpPost("Add")]
         public Result Add(string Name, IFormFile file)
         {
@@ -127,7 +140,15 @@ namespace TaskSchedulerHost.Controllers
                 try
                 {
                     task.ExecFile = path + "/" + task.Name + Path.GetExtension(_config.ExecAppFile);
-                    System.IO.File.Copy(_config.ExecAppFile, task.ExecFile);
+                    System.IO.File.Copy(_config.ExecAppFile, task.ExecFile, true);
+                    if (_config.ExecLibFile != null)
+                    {
+                        foreach (var item in _config.ExecLibFile)
+                        {
+                            var libFile = path + "/" + Path.GetFileName(item);
+                            System.IO.File.Copy(item, libFile, true);
+                        }
+                    }
                 }
                 catch(Exception ex)
                 {
@@ -157,6 +178,9 @@ namespace TaskSchedulerHost.Controllers
             }
         }
 
+        /// <summary>
+        /// 获取所有任务
+        /// </summary>
         [HttpGet]
         public Result TaskList()
         {
@@ -171,6 +195,10 @@ namespace TaskSchedulerHost.Controllers
             }
         }
 
+        /// <summary>
+        /// 获取任务详情
+        /// </summary>
+        /// <param name="Id">任务id</param>
         [HttpGet("{Id}")]
         public Result TaskInfo(int Id)
         {
@@ -186,6 +214,10 @@ namespace TaskSchedulerHost.Controllers
             }
         }
 
+        /// <summary>
+        /// 删除任务
+        /// </summary>
+        /// <param name="Id">任务id</param>
         [HttpDelete]
         public Result TaskDel(int Id)
         {
@@ -217,6 +249,7 @@ namespace TaskSchedulerHost.Controllers
                     }
                 }
                 _respository.DbContext.Database.CommitTransaction();
+                _manager.Remove(task);
                 return Success(null, "删除成功");
             }
             catch (Exception ex)
@@ -226,6 +259,11 @@ namespace TaskSchedulerHost.Controllers
             }
         }
 
+        /// <summary>
+        /// 更新任务dll
+        /// </summary>
+        /// <param name="Id">任务id</param>
+        /// <param name="file">任务程序集zip包</param>
         [HttpPatch]
         public Result UpdateLib(int Id, IFormFile file)
         {
@@ -275,7 +313,15 @@ namespace TaskSchedulerHost.Controllers
                 try
                 {
                     var execFile = path + "/" + task.Name + Path.GetExtension(_config.ExecAppFile);
-                    System.IO.File.Copy(_config.ExecAppFile, execFile);
+                    System.IO.File.Copy(_config.ExecAppFile, execFile, true);
+                    if (_config.ExecLibFile != null)
+                    {
+                        foreach (var item in _config.ExecLibFile)
+                        {
+                            execFile = path + "/" + Path.GetFileName(item);
+                            System.IO.File.Copy(item, execFile, true);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
