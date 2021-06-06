@@ -31,7 +31,7 @@ namespace TaskSchedulerTest
             }
         }
 
-        public override void Run()
+        public override void Run(int appId)
         {
 
             Main();
@@ -41,7 +41,7 @@ namespace TaskSchedulerTest
             {
                 i++;
                 LogMessage("执行第" + i.ToString() + "次");
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
             }
         }
     }

@@ -19,6 +19,6 @@ namespace TaskScheduler
         void LogInfo(string msg);
         void LogMessage(string msg);
 
-        void Run();
+        void Run(int appId);
     }
 }

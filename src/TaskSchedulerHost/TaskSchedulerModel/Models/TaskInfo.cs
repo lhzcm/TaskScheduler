@@ -55,6 +55,13 @@ namespace TaskSchedulerModel.Models
         public Process Process { get; set; }
 
         /// <summary>
+        /// 进程信息
+        /// </summary>
+        [NotMapped]
+        [System.Text.Json.Serialization.JsonIgnore]
+        public bool HasExistCommand { get; set; }
+
+        /// <summary>
         /// 程序是否正在运行
         /// </summary>
         [NotMapped]

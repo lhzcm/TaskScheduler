@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 基础表格
+                    <i class="el-icon-lx-cascades"></i> 任务列表
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -273,7 +273,7 @@ export default {
                     this.$message.success(res.msg);
                     this.addVisible = false;
                 }else{
-                    this.$message.console.error(res.msg);
+                    this.$message.error(res.msg);
                 }
             })
         },

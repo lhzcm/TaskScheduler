@@ -13,7 +13,7 @@ namespace TaskScheduler
         public List<LogInfo> LogQueuen => _logQuenuen.ToList();
         private static object obj = new object();
 
-        public abstract void Run();
+        public abstract void Run(int appId);
 
         public void Log(LogLevel level, string msg)
         {

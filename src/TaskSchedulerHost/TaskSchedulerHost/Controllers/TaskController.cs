@@ -31,6 +31,11 @@ namespace TaskSchedulerHost.Controllers
             this._manager = manager;
         }
 
+        private void Test(object? sender, EventArgs e)
+        {
+            Console.WriteLine("结束");
+        }
+
         /// <summary>
         /// 运行任务
         /// </summary>
@@ -58,11 +63,38 @@ namespace TaskSchedulerHost.Controllers
                     args.Add(path);
 
                     task.Process = Process.Start(task.ExecFile, String.Join(" ", args));
+                    //退出事件
+                    task.Process.Exited += (object? sender, EventArgs e)=> {
+                        
+                        var proc = sender as Process;
+                        if (proc == null || proc.ExitCode == 0)
+                            return;
+
+                        var curtask = _manager.GetTasks(n => n.Process == proc).FirstOrDefault();
+                        if (curtask == null)
+                            return;
+
+                        TaskLogger taskLogger = new TaskLogger();
+
+                        if (curtask.HasExistCommand)
+                        {
+                            taskLogger.Add(new LogInfo { TaskId = curtask.Id, Level = TaskSchedulerModel.Models.LogLevel.Info, Message = "【任务手动退出成功】ExistCode:" + proc.ExitCode });
+                        }
+                        else
+                        {
+                            taskLogger.Add(new LogInfo { TaskId = curtask.Id, Level = TaskSchedulerModel.Models.LogLevel.Error, Message = "【任务异常退出】ExistCode:" + proc.ExitCode });
+                        }
+
+                       
+                       
+                    };
+
                 }
                 else
                 {
                     task.Process.Start();
                 }
+                task.HasExistCommand = false;
                 return Success("程序运行成功");
             }
             catch (Exception ex)
@@ -91,7 +123,7 @@ namespace TaskSchedulerHost.Controllers
                     return Fail("退出失败，任务没有运行");
                 }
                 task.Process.Kill();
-
+                task.HasExistCommand = true;
                 return Success("程序退出成功");
             }
             catch (Exception ex)

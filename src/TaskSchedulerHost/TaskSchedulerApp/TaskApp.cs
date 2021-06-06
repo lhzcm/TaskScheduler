@@ -44,21 +44,21 @@ namespace TaskSchedulerApp
 
                 if (mainAssembly.Count == 0)
                 {
-                    throw new Exception("没有找到继承于Runner的类型");
+                    throw new Exception("没有找到继承于ITaskRunner的类型");
                 }
 
                 if (mainAssembly.Count > 1)
                 {
-                    throw new Exception("找到多个存在继承于Runner的类型的程序集");
+                    throw new Exception("找到多个存在继承于ITaskRunner的类型的程序集");
                 }
 
-                Type[] types = mainAssembly[0].GetTypes().Where(n => n.BaseType == typeof(TaskRunner)).ToArray();
+                Type[] types = mainAssembly[0].GetTypes().Where(n => typeof(ITaskRunner).IsAssignableFrom(n)).ToArray();
                 if (types.Length > 1)
                 {
-                    throw new Exception("找到多个存在继承于Runner的类型");
+                    throw new Exception("找到多个存在继承于ITaskRunner的类型");
                 }
 
-                var runner = System.Activator.CreateInstance(types[0]) as TaskRunner;
+                var runner = System.Activator.CreateInstance(types[0]) as ITaskRunner;
                 if (runner == null)
                 {
                     throw new Exception("实例化对象失败");
@@ -69,7 +69,7 @@ namespace TaskSchedulerApp
                 try
                 {
                     SendLog(new LogInfo { Level = LogLevel.Info, Message = "【开始执行】", WriteTime = DateTime.Now });
-                    runner.Run();
+                    runner.Run(AppId);
                     SendLog(new LogInfo { Level = LogLevel.Info, Message = "【执行结束并退出】", WriteTime = DateTime.Now });
                 }
                 catch (Exception ex)
@@ -94,7 +94,7 @@ namespace TaskSchedulerApp
           
         }
 
-        public void ExecLogQuenuen(TaskRunner runner)
+        public void ExecLogQuenuen(ITaskRunner runner)
         {
             while (true)
             {
