@@ -14,3 +14,4 @@ src/TaskSchedulerHost/.vs/
 src/TaskSchedulerHost/TaskSchedulerHost/App/
 src/TaskSchedulerHost/TaskSchedulerTest/obj/
 src/TaskSchedulerHost/TaskSchedulerTest/bin/
+src/TaskSchedulerVueWeb/node_modules
