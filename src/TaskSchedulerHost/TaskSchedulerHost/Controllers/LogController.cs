@@ -21,7 +21,7 @@ namespace TaskSchedulerHost.Controllers
             this._logger = logger;
         }
 
-        [HttpGet("{taskId}")]
+        [HttpGet("{taskId}/{page}/{pagesize}")]
         public Result GetLog(int taskId, int page = 1, int pagesize = 20)
         {
             try

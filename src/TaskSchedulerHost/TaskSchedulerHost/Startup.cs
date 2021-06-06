@@ -40,11 +40,16 @@ namespace TaskSchedulerHost
             services.AddScoped<TaskManager>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c=> {
+            services.AddSwaggerGen(c => {
 
                 //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 //c.IncludeXmlComments(xmlPath);
+            });
+            services.AddCors(Options =>
+            {
+                //Options.AddPolicy("cors", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+                Options.AddPolicy("custom", p => p.WithOrigins("http://192.168.1.3:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             });
             services.AddOptions();
         }
@@ -56,6 +61,8 @@ namespace TaskSchedulerHost
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("custom");
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

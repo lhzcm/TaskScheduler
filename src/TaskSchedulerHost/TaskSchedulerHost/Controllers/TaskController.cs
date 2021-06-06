@@ -36,7 +36,7 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="Id">任务id</param>
         [HttpPost("Run")]
-        public Result Run(int Id)
+        public Result Run([FromForm] int Id)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="Id">任务id</param>
         [HttpPost("Kill")]
-        public Result Kill(int Id)
+        public Result Kill([FromForm] int Id)
         {
             try
             {
@@ -104,15 +104,24 @@ namespace TaskSchedulerHost.Controllers
         /// <summary>
         /// 添加任务
         /// </summary>
-        /// <param name="Name">任务名称</param>
+        /// <param name="name">任务名称</param>
         /// <param name="file">任务程序集zip包</param>
         [HttpPost("Add")]
-        public Result Add(string Name, IFormFile file)
+        public Result Add([FromForm]string name, [FromForm]IFormFile file)
         {
             try
             {
+                if (name == null)
+                {
+                    return Fail("名称不能为空");
+                }
+                if (file == null)
+                {
+                    return Fail("文件不能为空");
+                }
+
                 _respository.DbContext.Database.BeginTransaction();
-                TaskInfo task = new TaskInfo { Name = Name, ExecFile = "" };
+                TaskInfo task = new TaskInfo { Name = name, ExecFile = "" };
                 _respository.Insert(task);
 
                 var path = _config.TaskAppPath + task.TaskGuid.ToString("N");
@@ -169,7 +178,7 @@ namespace TaskSchedulerHost.Controllers
                 _respository.DbContext.Database.CommitTransaction();
 
                 _manager.Add(task);
-                return Success(task);
+                return Success(task, "添加成功");
             }
             catch (Exception ex)
             {
@@ -181,12 +190,33 @@ namespace TaskSchedulerHost.Controllers
         /// <summary>
         /// 获取所有任务
         /// </summary>
-        [HttpGet]
-        public Result TaskList()
+        [HttpGet("{page}/{pagesize}")]
+        public Result TaskList(int page, int pagesize)
         {
             try
             {
-                return Success(_manager.GetTasks());
+                var list = _manager.GetTasks();
+                var result = list.Skip((page - 1) * pagesize).Take(pagesize).ToList();
+                return Success(new { list = result, total = list.Count});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return Fail("系统错误");
+            }
+        }
+
+        /// <summary>
+        /// 获取所有任务
+        /// </summary>
+        [HttpGet("{page}/{pagesize}/{name}")]
+        public Result TaskList(int page, int pagesize, string name)
+        {
+            try
+            {
+                var list = _manager.GetTasks().Where(n => n.Name.Contains(name)).ToList();
+                var result = list.Skip((page - 1) * pagesize).Take(pagesize).ToList();
+                return Success(new { list = result, total = list.Count });
             }
             catch (Exception ex)
             {
@@ -219,7 +249,7 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="Id">任务id</param>
         [HttpDelete]
-        public Result TaskDel(int Id)
+        public Result TaskDel([FromForm] int Id)
         {
             try
             {
@@ -265,7 +295,7 @@ namespace TaskSchedulerHost.Controllers
         /// <param name="Id">任务id</param>
         /// <param name="file">任务程序集zip包</param>
         [HttpPatch]
-        public Result UpdateLib(int Id, IFormFile file)
+        public Result UpdateLib([FromForm] int Id, IFormFile file)
         {
             try
             {
@@ -335,7 +365,7 @@ namespace TaskSchedulerHost.Controllers
 
                 task.UpdateTime = DateTime.Now;
                 _respository.Update(n => n.Id == task.Id, n=> new TaskInfo { UpdateTime = DateTime.Now});
-                return Success(task);
+                return Success(task, "更新成功");
             }
             catch (Exception ex)
             {
