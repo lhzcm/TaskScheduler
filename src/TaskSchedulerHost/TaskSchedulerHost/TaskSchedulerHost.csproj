@@ -6,7 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LHZ.FastJson" Version="1.3.4" />
+    <Content Remove="App\7c8f032d72864f0aa986fc1c2a7e0c61\环境测试.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="App\7c8f032d72864f0aa986fc1c2a7e0c61\环境测试.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LHZ.FastJson" Version="1.3.6" />
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="5.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />

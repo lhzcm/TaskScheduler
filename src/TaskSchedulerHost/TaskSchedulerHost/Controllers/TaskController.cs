@@ -58,11 +58,16 @@ namespace TaskSchedulerHost.Controllers
                 {
                     List<string> args = new List<string>();
                     args.Add(task.Id.ToString());
+                    
+                    task.Process = new Process();
+                    task.Process.StartInfo = new ProcessStartInfo(task.ExecFile, String.Join(" ", args));
+
                     var path = Path.Combine(Environment.CurrentDirectory, task.ExecFile.Replace("./", "").Replace("/", "\\"));
                     path = Path.GetDirectoryName(path);
-                    args.Add(path);
 
-                    task.Process = Process.Start(task.ExecFile, String.Join(" ", args));
+                    task.Process.StartInfo.WorkingDirectory = path;
+                    task.Process.Start();
+
                     //退出事件
                     task.Process.Exited += (object? sender, EventArgs e)=> {
                         
@@ -84,11 +89,7 @@ namespace TaskSchedulerHost.Controllers
                         {
                             taskLogger.Add(new LogInfo { TaskId = curtask.Id, Level = TaskSchedulerModel.Models.LogLevel.Error, Message = "【任务异常退出】ExistCode:" + proc.ExitCode });
                         }
-
-                       
-                       
                     };
-
                 }
                 else
                 {
@@ -180,8 +181,15 @@ namespace TaskSchedulerHost.Controllers
                 }
                 try
                 {
+                    //复制可执行文件
                     task.ExecFile = path + "/" + task.Name + Path.GetExtension(_config.ExecAppFile);
                     System.IO.File.Copy(_config.ExecAppFile, task.ExecFile, true);
+
+                    //复制配置文件
+                    var configFilePath = task.ExecFile + Path.GetExtension(_config.ExecAppConfig);
+                    System.IO.File.Copy(_config.ExecAppConfig, configFilePath, true);
+
+                    //复制类库
                     if (_config.ExecLibFile != null)
                     {
                         foreach (var item in _config.ExecLibFile)
@@ -374,8 +382,15 @@ namespace TaskSchedulerHost.Controllers
                 }
                 try
                 {
+                    //复制可执行文件
                     var execFile = path + "/" + task.Name + Path.GetExtension(_config.ExecAppFile);
                     System.IO.File.Copy(_config.ExecAppFile, execFile, true);
+
+                    //复制配置文件
+                    var configFilePath = task.ExecFile + Path.GetExtension(_config.ExecAppConfig);
+                    System.IO.File.Copy(_config.ExecAppConfig, configFilePath, true);
+
+                    //复制类库
                     if (_config.ExecLibFile != null)
                     {
                         foreach (var item in _config.ExecLibFile)

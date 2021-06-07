@@ -19,7 +19,7 @@
                     <el-option key="1" label="广东省" value="广东省"></el-option>
                     <el-option key="2" label="湖南省" value="湖南省"></el-option>
                 </el-select> -->
-                <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+                <el-input v-model="query.name" placeholder="任务名称" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
                 <el-button type="primary" icon="el-icon-add" @click="taskAddShow">添加</el-button>
             </div>
@@ -33,9 +33,9 @@
             >
                 <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-                <el-table-column prop="name" label="程序名称"></el-table-column>
+                <el-table-column prop="name" label="任务名称"></el-table-column>
                 <!-- <el-table-column prop="taskGuid" label="全局ID"></el-table-column> -->
-                <el-table-column label="程序状态" align="center">
+                <el-table-column label="任务状态" align="center">
                     <template #default="scope">
                         <el-tag
                             :type="
@@ -134,7 +134,7 @@
             <el-container class="tableLogSection">
             <el-table
                 :data="logList"
-                
+                :row-key="(row)=> { return row.id}"
                 class="table"
                 :show-header="false"
                 :row-style="taskRowClass"
@@ -358,7 +358,7 @@ export default {
 .tableLogSection {
     width: 100%;
     font-size: 14px;
-    height: 800px;
+    height: 500px;
     overflow: scroll;
 }
 .red {
@@ -380,16 +380,24 @@ export default {
     height: 80%;
     overflow:hide
 }
+
 .rowRed{
-    background: rgba(255, 0, 0, 0.466) !important;
+    background: #ff0000;
+    color: white;
 }
 .rowYellow{
-    background: rgba(255, 255, 0, 0.377) !important;
+    background:yellow;
+    color: black;
 }
+
 .rowBlue{
-    background: rgba(0, 0, 255, 0.411) !important;
+    background: blue;
+    color: white;
 }
+
 .rowGreen{
-    background: rgba(0, 128, 0, 0.486) !important;
+    background: green;
+    color: white;
 }
+
 </style>

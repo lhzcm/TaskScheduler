@@ -11,8 +11,7 @@ namespace TaskSchedulerApp
         static void Main(string[] args)
         {
             int appId = Convert.ToInt32(args[0]);
-            string path = args[1];
-            TaskApp.Init(appId, path).Run();
+            TaskApp.Init(appId).Run();
             Environment.Exit(0);
         }
     }

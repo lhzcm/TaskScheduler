@@ -60,10 +60,11 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LHZ.FastJson, Version=1.3.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LHZ.FastJson.1.3.4\lib\net45\LHZ.FastJson.dll</HintPath>
+    <Reference Include="LHZ.FastJson, Version=1.3.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LHZ.FastJson.1.3.6\lib\net45\LHZ.FastJson.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

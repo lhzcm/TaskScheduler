@@ -1,6 +1,7 @@
 ﻿using LHZ.FastJson;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
@@ -17,10 +18,10 @@ namespace TaskSchedulerApp
         public readonly int AppId;
         public readonly string AppPath;
 
-        public TaskApp(int appId, string path)
+        public TaskApp(int appId)
         {
             AppId = appId;
-            AppPath = path;
+            AppPath = Environment.CurrentDirectory;
         }
 
         public void Run()
@@ -80,14 +81,14 @@ namespace TaskSchedulerApp
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message + ex.StackTrace);
-                SendLog(new LogInfo { Level = LogLevel.Info, Message = ex.Message + ex.StackTrace, WriteTime = DateTime.Now });
+                SendLog(new LogInfo { Level = LogLevel.Error, Message = ex.Message + ex.StackTrace, WriteTime = DateTime.Now });
             }
             
         }
         
-        public static TaskApp Init(int appId, string path)
+        public static TaskApp Init(int appId)
         {
-            var taskApp = new TaskApp(appId, path);
+            var taskApp = new TaskApp(appId);
             return taskApp;
 
             

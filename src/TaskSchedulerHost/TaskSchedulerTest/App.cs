@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -33,16 +34,20 @@ namespace TaskSchedulerTest
 
         public override void Run(int appId)
         {
-
-            Main();
+            //Main();
 
             int i = 0;
             while (true)
             {
                 i++;
                 LogMessage("执行第" + i.ToString() + "次");
-                Thread.Sleep(1000);
+                LogMessage("Environment");
+                LogMessage("CurrentDirectory:" + Environment.CurrentDirectory);
+                LogMessage("Config:" + ConfigurationManager.AppSettings["test"]);
+                Thread.Sleep(10000);
             }
         }
+
+
     }
 }
