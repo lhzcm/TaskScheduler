@@ -20,9 +20,11 @@ namespace TaskSchedulerHost
 {
     public class Startup
     {
+        private Config _config;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _config = configuration.GetSection("AppConfig").Get<Config>();
         }
 
         public IConfiguration Configuration { get; }
@@ -30,9 +32,8 @@ namespace TaskSchedulerHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var config = Configuration.GetSection("AppConfig").Get<Config>();
-            services.AddSingleton<Config>(config);
 
+            services.AddSingleton<Config>(_config);
             services.AddDbContext<TaskSchedulerDbContext>((op) => op.UseSqlServer(Configuration.GetConnectionString("TaskScheduler")));
             services.AddScoped<TaskRespository>();
             services.AddScoped<LogRespository>();
@@ -48,8 +49,11 @@ namespace TaskSchedulerHost
             });
             services.AddCors(Options =>
             {
-                //Options.AddPolicy("cors", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
-                Options.AddPolicy("custom", p => p.WithOrigins("http://192.168.1.3:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                //Options.AddPolicy("cors", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());\
+                if (_config.CORS != null)
+                {
+                    Options.AddPolicy("custom", p => p.WithOrigins(_config.CORS).AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                }
             });
             services.AddOptions();
         }
@@ -62,7 +66,10 @@ namespace TaskSchedulerHost
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("custom");
+            if (_config.CORS != null)
+            {
+                app.UseCors("custom");
+            }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

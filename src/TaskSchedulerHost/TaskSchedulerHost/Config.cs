@@ -21,5 +21,10 @@ namespace TaskSchedulerHost
         /// 可执行文件类库路径
         /// </summary>
         public string[] ExecLibFile { get; set; }
+
+        /// <summary>
+        /// 跨域地址
+        /// </summary>
+        public string CORS { get; set; }
     }
 }
