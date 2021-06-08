@@ -58,16 +58,17 @@ namespace TaskSchedulerHost.Controllers
                 {
                     List<string> args = new List<string>();
                     args.Add(task.Id.ToString());
-                    
-                    task.Process = new Process();
-                    task.Process.StartInfo = new ProcessStartInfo(task.ExecFile, String.Join(" ", args));
 
+                    ProcessStartInfo startInfo = new ProcessStartInfo(task.ExecFile, String.Join(" ", args));
                     var path = Path.Combine(Environment.CurrentDirectory, task.ExecFile.Replace("./", "").Replace("/", "\\"));
                     path = Path.GetDirectoryName(path);
+                    startInfo.WorkingDirectory = path;
 
-                    task.Process.StartInfo.WorkingDirectory = path;
-                    task.Process.Start();
-
+                    task.Process = Process.Start(startInfo);
+                    if (task.Process == null)
+                    {
+                        return Fail("进程启动失败");
+                    }
                     //退出事件
                     task.Process.Exited += (object? sender, EventArgs e)=> {
                         

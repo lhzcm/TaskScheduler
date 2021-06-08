@@ -69,11 +69,18 @@ namespace TaskSchedulerModel.Models
         {
             get 
             {
-                if (Process != null && !Process.HasExited)
+                try
                 {
-                    return true;
+                    if (Process != null && !Process.HasExited)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
+                catch
+                {
+                    return false;
+                }
             }
         }
     }

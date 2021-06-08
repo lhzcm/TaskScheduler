@@ -30,8 +30,8 @@ namespace TaskSchedulerHost
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args).ConfigureLogging((context, loggingBuilder) =>
                 {
-                    loggingBuilder.AddFilter("System", LogLevel.Information);
-                    loggingBuilder.AddFilter("Microsoft", LogLevel.Information);
+                    loggingBuilder.AddFilter("System", LogLevel.Warning);
+                    loggingBuilder.AddFilter("Microsoft", LogLevel.Warning);
                     var path = context.HostingEnvironment.ContentRootPath;
                     loggingBuilder.AddLog4Net($"{path}/log4net.config");//≈‰÷√Œƒº˛
                 })
