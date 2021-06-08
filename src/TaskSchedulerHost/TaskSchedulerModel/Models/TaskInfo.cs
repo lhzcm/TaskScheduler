@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskSchedulerModel.Attribute;
 
 namespace TaskSchedulerModel.Models
 {
@@ -34,6 +35,7 @@ namespace TaskSchedulerModel.Models
         /// 更新时间时间
         /// </summary>
         [Column(TypeName = "datetime")]
+        [JsonConverterDateTime]
         public DateTime UpdateTime { get; set; }
 
         /// <summary>
@@ -45,6 +47,7 @@ namespace TaskSchedulerModel.Models
         /// 添加时间
         /// </summary>
         [Column(TypeName = "datetime")]
+        [JsonConverterDateTime]
         public DateTime WriteTime { get; set; }
 
         /// <summary>
