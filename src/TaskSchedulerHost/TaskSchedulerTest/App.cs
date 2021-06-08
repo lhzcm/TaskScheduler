@@ -41,10 +41,7 @@ namespace TaskSchedulerTest
             {
                 i++;
                 LogMessage("执行第" + i.ToString() + "次");
-                LogMessage("Environment");
-                LogMessage("CurrentDirectory:" + Environment.CurrentDirectory);
-                LogMessage("Config:" + ConfigurationManager.AppSettings["test"]);
-                Thread.Sleep(10000);
+                Thread.Sleep(500);
             }
         }
 

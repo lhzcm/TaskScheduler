@@ -123,7 +123,7 @@ namespace TaskSchedulerApp
                     using (StreamWriter writer = new StreamWriter(pipe))
                     {
                         var proc = System.Diagnostics.Process.GetCurrentProcess();
-                        writer.WriteLine(JsonConvert.Serialize(log));
+                        writer.WriteLine(JsonConvert.Serialize(log, new LHZ.FastJson.Json.Format.DateTimeJsonFormat("yyyy-MM-dd HH:mm:ss.fff")));
                         writer.Flush();
                     }
                     pipe.Close();

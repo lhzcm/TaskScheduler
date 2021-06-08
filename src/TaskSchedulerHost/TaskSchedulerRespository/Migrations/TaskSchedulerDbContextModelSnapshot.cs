@@ -39,9 +39,7 @@ namespace TaskSchedulerRespository.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("WriteTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 5, 24, 16, 29, 43, 127, DateTimeKind.Local).AddTicks(2217));
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -67,19 +65,13 @@ namespace TaskSchedulerRespository.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("TaskGuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("aec2ae13-6512-42b3-a70b-78df3929b62f"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 5, 24, 16, 29, 43, 126, DateTimeKind.Local).AddTicks(6617));
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("WriteTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 5, 24, 16, 29, 43, 115, DateTimeKind.Local).AddTicks(227));
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 

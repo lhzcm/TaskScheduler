@@ -32,12 +32,26 @@ namespace TaskSchedulerModel.Models
         [Required]
         public string Message { get; set; }
 
+
+        private DateTime _time;
         /// <summary>
         /// 添加时间
         /// </summary>
         [Column(TypeName = "datetime")]
         
-        public DateTime WriteTime { get; set; }
+        public DateTime WriteTime { 
+            get 
+            {
+                if (_time == DateTime.MinValue)
+                    return DateTime.Now;
+                else
+                    return _time;
+            } 
+            set
+            {
+                this._time = value;
+            } 
+        }
 
     }
 }

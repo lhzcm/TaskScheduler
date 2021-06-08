@@ -130,16 +130,23 @@
         </el-dialog>
 
         <!-- 任务日志 -->
-        <el-dialog title="任务日志" v-model="logVisible" width="50%" :before-close="closeLogList">
+        <el-dialog title="任务日志" v-model="logVisible" width="80%" :before-close="closeLogList">
             <el-container class="tableLogSection">
             <el-table
                 :data="logList"
                 :row-key="(row)=> { return row.id}"
                 class="table"
                 :show-header="false"
-                :row-style="taskRowClass"
                 >
                 <el-table-column prop="message" ></el-table-column>
+                <el-table-column width="60">
+                    <template #default="scope">
+                        <div style="background:red;color:white;text-align: center;border-radius: 6px;" v-if="scope.row.level == 0">错误</div>
+                        <div style="background:yellow;color:black;text-align: center;border-radius: 6px;" v-else-if="scope.row.level == 1">警告</div>
+                        <div style="background:blue;color:white;text-align: center;border-radius: 6px;" v-else-if="scope.row.level == 2">信息</div>
+                        <div style="background:green;color:white;text-align: center;border-radius: 6px;" v-else-if="scope.row.level == 3">消息</div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="writeTime" width="200" label="创建时间"></el-table-column>
             </el-table>
             </el-container>

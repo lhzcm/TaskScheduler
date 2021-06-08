@@ -17,7 +17,7 @@ namespace TaskScheduler
 
         public void Log(LogLevel level, string msg)
         {
-            LogQueuenAdd(new LogInfo { Level = level, Message = msg });
+            LogQueuenAdd(new LogInfo { Level = level, Message = msg, WriteTime = DateTime.Now });
         }
 
         public void LogError(string msg)
