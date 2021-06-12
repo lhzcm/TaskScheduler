@@ -28,9 +28,9 @@ namespace TaskSchedulerRespository.DbContexts
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.UseIdentityColumns(1,1);
-            modelBuilder.Entity<TaskInfo>().Property(l => l.WriteTime).HasDefaultValue();
-            modelBuilder.Entity<TaskInfo>().Property(l => l.UpdateTime).HasDefaultValue();
-            modelBuilder.Entity<TaskInfo>().Property(l => l.TaskGuid).HasDefaultValue();
+            modelBuilder.Entity<TaskInfo>().Property(l => l.WriteTime).HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<TaskInfo>().Property(l => l.UpdateTime).HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<TaskInfo>().Property(l => l.TaskGuid).HasDefaultValueSql("newid()");
         }
 
         public virtual DbSet<TaskInfo> TaskInfos { get; set; }
