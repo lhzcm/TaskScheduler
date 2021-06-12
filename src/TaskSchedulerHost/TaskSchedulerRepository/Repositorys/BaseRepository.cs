@@ -12,10 +12,10 @@ using System.Linq.Expressions;
 
 namespace TaskSchedulerRespository.Respositorys
 {
-    public abstract class BaseRespository<T, TEntity> : IRespository<TEntity> where T : DbContext where TEntity : class
+    public abstract class BaseRepository<T, TEntity> : IRepository<TEntity> where T : DbContext where TEntity : class
     {
         private T _db;
-        public BaseRespository(T db)
+        public BaseRepository(T db)
         {
             this._db = db;
         }

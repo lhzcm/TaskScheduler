@@ -11,8 +11,8 @@ namespace TaskSchedulerHost.Task
     public class TaskManager
     {
         private static readonly List<TaskInfo> _tasks = new List<TaskInfo>();
-        private TaskRespository _repository;
-        public TaskManager(TaskRespository respository)
+        private TaskRepository _repository;
+        public TaskManager(TaskRepository respository)
         {
             this._repository = respository;
         }
@@ -155,7 +155,7 @@ namespace TaskSchedulerHost.Task
 
             using (var scope = serverProvider.CreateScope())
             {
-                var taskManager = new TaskManager(scope.ServiceProvider.GetService<TaskRespository>());
+                var taskManager = new TaskManager(scope.ServiceProvider.GetService<TaskRepository>());
                 taskManager.ReFulsh();
             }
         }

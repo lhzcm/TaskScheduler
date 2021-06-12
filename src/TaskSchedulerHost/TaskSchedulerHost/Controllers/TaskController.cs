@@ -19,13 +19,13 @@ namespace TaskSchedulerHost.Controllers
     [Route("[controller]")]
     public class TaskController : BaseController
     {
-        private TaskRespository _respository;
+        private TaskRepository _repository;
         private Config _config;
         private ILogger<TaskController> _logger;
         private TaskManager _manager;
-        public TaskController(TaskRespository respository, Config config, ILogger<TaskController> logger, TaskManager manager)
+        public TaskController(TaskRepository repository, Config config, ILogger<TaskController> logger, TaskManager manager)
         {
-            this._respository = respository;
+            this._repository = repository;
             this._config = config;
             this._logger = logger;
             this._manager = manager;
@@ -154,9 +154,9 @@ namespace TaskSchedulerHost.Controllers
                     return Fail("文件不能为空");
                 }
 
-                _respository.DbContext.Database.BeginTransaction();
+                _repository.DbContext.Database.BeginTransaction();
                 TaskInfo task = new TaskInfo { Name = name, ExecFile = "" };
-                _respository.Insert(task);
+                _repository.Insert(task);
 
                 var path = _config.TaskAppPath + task.TaskGuid.ToString("N");
                 try
@@ -172,7 +172,7 @@ namespace TaskSchedulerHost.Controllers
                 }
                 catch(Exception ex)
                 {
-                    _respository.DbContext.Database.RollbackTransaction();
+                    _repository.DbContext.Database.RollbackTransaction();
                     if (System.IO.Directory.Exists(path))
                     {
                         System.IO.Directory.Delete(path, true);
@@ -202,7 +202,7 @@ namespace TaskSchedulerHost.Controllers
                 }
                 catch(Exception ex)
                 {
-                    _respository.DbContext.Database.RollbackTransaction();
+                    _repository.DbContext.Database.RollbackTransaction();
                     if (System.IO.Directory.Exists(path))
                     {
                         System.IO.Directory.Delete(path, true);
@@ -210,13 +210,13 @@ namespace TaskSchedulerHost.Controllers
                     _logger.LogError(ex.Message + ex.StackTrace);
                     return Fail("复制执行文件失败");
                 }
-                if (_respository.Update(task) <= 0)
+                if (_repository.Update(task) <= 0)
                 {
-                    _respository.DbContext.Database.RollbackTransaction();
+                    _repository.DbContext.Database.RollbackTransaction();
                     return Fail("更新执行文件路径失败");
                 }
 
-                _respository.DbContext.Database.CommitTransaction();
+                _repository.DbContext.Database.CommitTransaction();
 
                 _manager.Add(task);
                 return Success(task, "添加成功");
@@ -299,10 +299,10 @@ namespace TaskSchedulerHost.Controllers
                 {
                     return Fail("删除失败，程序正在运行，请先停止程序");
                 }
-                _respository.DbContext.Database.BeginTransaction();
-                if (_respository.Delete(n => n.Id == Id) <= 0)
+                _repository.DbContext.Database.BeginTransaction();
+                if (_repository.Delete(n => n.Id == Id) <= 0)
                 {
-                    _respository.DbContext.Database.RollbackTransaction();
+                    _repository.DbContext.Database.RollbackTransaction();
                     return Fail("删除失败");
                 }
                 var path = _config.TaskAppPath + task.TaskGuid.ToString("N");
@@ -314,12 +314,12 @@ namespace TaskSchedulerHost.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _respository.DbContext.Database.RollbackTransaction();
+                        _repository.DbContext.Database.RollbackTransaction();
                         _logger.LogError(ex.Message + ex.StackTrace);
                         return Fail("删除失败, 删除文件夹（"+path+"）失败！");
                     }
                 }
-                _respository.DbContext.Database.CommitTransaction();
+                _repository.DbContext.Database.CommitTransaction();
                 _manager.Remove(task);
                 return Success(null, "删除成功");
             }
@@ -412,7 +412,7 @@ namespace TaskSchedulerHost.Controllers
                 }
 
                 task.UpdateTime = DateTime.Now;
-                _respository.Update(n => n.Id == task.Id, n=> new TaskInfo { UpdateTime = DateTime.Now});
+                _repository.Update(n => n.Id == task.Id, n=> new TaskInfo { UpdateTime = DateTime.Now});
                 return Success(task, "更新成功");
             }
             catch (Exception ex)

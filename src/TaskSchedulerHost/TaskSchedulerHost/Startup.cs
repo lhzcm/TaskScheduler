@@ -35,8 +35,8 @@ namespace TaskSchedulerHost
 
             services.AddSingleton<Config>(_config);
             services.AddDbContext<TaskSchedulerDbContext>((op) => op.UseSqlServer(Configuration.GetConnectionString("TaskScheduler")));
-            services.AddScoped<TaskRespository>();
-            services.AddScoped<LogRespository>();
+            services.AddScoped<TaskRepository>();
+            services.AddScoped<LogRepository>();
             services.AddControllers();
             services.AddScoped<TaskManager>();
 

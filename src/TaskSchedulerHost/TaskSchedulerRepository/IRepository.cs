@@ -8,7 +8,7 @@ using TaskSchedulerModel.Models;
 
 namespace TaskSchedulerRespository
 {
-    public interface IRespository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         /// <summary>
         /// 根据条件查询

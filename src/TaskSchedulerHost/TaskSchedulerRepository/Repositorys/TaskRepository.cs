@@ -11,9 +11,9 @@ using Z.EntityFramework.Plus;
 
 namespace TaskSchedulerRespository.Respositorys
 {
-    public class TaskRespository : BaseRespository<TaskSchedulerDbContext, TaskInfo>
+    public class TaskRepository : BaseRepository<TaskSchedulerDbContext, TaskInfo>
     {
-        public TaskRespository(TaskSchedulerDbContext db) : base(db)
+        public TaskRepository(TaskSchedulerDbContext db) : base(db)
         {
         }
 

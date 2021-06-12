@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerHost", "TaskSc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerModel", "TaskSchedulerModel\TaskSchedulerModel.csproj", "{478BB13D-EC68-41CC-BA95-E485CCDB2251}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRespository", "TaskSchedulerRespository\TaskSchedulerRespository.csproj", "{07CED5ED-3598-46A2-8E6C-19D3C0085AB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRepository", "TaskSchedulerRepository\TaskSchedulerRepository.csproj", "{07CED5ED-3598-46A2-8E6C-19D3C0085AB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRespositoryTest", "TaskSchedulerRespositoryTest\TaskSchedulerRespositoryTest.csproj", "{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerRepositoryTest", "TaskSchedulerRepositoryTest\TaskSchedulerRepositoryTest.csproj", "{7CB2904F-9AF2-45FF-8DF7-63BE3BBAB9AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler", "TaskScheduler\TaskScheduler.csproj", "{B5A366E6-523F-4F9D-A0CA-1D4CD884575B}"
 EndProject

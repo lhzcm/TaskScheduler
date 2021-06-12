@@ -9,12 +9,12 @@ using Z.EntityFramework.Plus;
 namespace TaskSchedulerRespositoryTest
 {
     [TestClass]
-    public class TaskRespositoryTest
+    public class TaskRepositoryTest
     {
         [TestMethod]
         public void TestFind()
         {
-            TaskRespository respository = new TaskRespository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
+            TaskRepository respository = new TaskRepository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
 
             var taskInfo = new TaskInfo() { Name = "test", ExecFile = ""};
             respository.Insert(taskInfo);
@@ -41,7 +41,7 @@ namespace TaskSchedulerRespositoryTest
         [TestMethod]
         public void TestInsert()
         {
-            TaskRespository respository = new TaskRespository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
+            TaskRepository respository = new TaskRepository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
             var taskInfo = new TaskInfo() { Name = "test", ExecFile = ""};
             Assert.AreEqual(respository.Insert(taskInfo), 1);
         }
@@ -49,7 +49,7 @@ namespace TaskSchedulerRespositoryTest
         [TestMethod]
         public void TestDelete()
         {
-            TaskRespository respository = new TaskRespository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
+            TaskRepository respository = new TaskRepository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
 
             var taskInfo = new TaskInfo() { Name = "test", ExecFile = ""};
             Assert.AreEqual(respository.Insert(taskInfo), 1);
@@ -69,7 +69,7 @@ namespace TaskSchedulerRespositoryTest
         [TestMethod]
         public void TestUpdate()
         {
-            TaskRespository respository = new TaskRespository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
+            TaskRepository respository = new TaskRepository(new TaskSchedulerRespository.DbContexts.TaskSchedulerDbContext());
 
             var taskInfo = new TaskInfo() { Name = "test", ExecFile = "" };
             Assert.AreEqual(respository.Insert(taskInfo), 1);

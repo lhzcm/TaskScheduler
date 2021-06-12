@@ -13,11 +13,11 @@ namespace TaskSchedulerHost.Controllers
     [Route("[controller]")]
     public class LogController : BaseController
     {
-        private LogRespository _respository;
+        private LogRepository _repository;
         private ILogger<LogController> _logger;
-        public LogController(LogRespository respository, ILogger<LogController> logger)
+        public LogController(LogRepository respository, ILogger<LogController> logger)
         {
-            this._respository = respository;
+            this._repository = respository;
             this._logger = logger;
         }
 
@@ -27,7 +27,7 @@ namespace TaskSchedulerHost.Controllers
             try
             {
                 int total = 0;
-                var logList = _respository.Find(page, pagesize, n => n.TaskId == taskId, out total, n => n.Id, false);
+                var logList = _repository.Find(page, pagesize, n => n.TaskId == taskId, out total, n => n.Id, false);
                 return Success(new { List = logList, Total = total });
             }
             catch (Exception ex)

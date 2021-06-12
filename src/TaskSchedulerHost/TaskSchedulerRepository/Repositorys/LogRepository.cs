@@ -8,9 +8,9 @@ using TaskSchedulerRespository.DbContexts;
 
 namespace TaskSchedulerRespository.Respositorys
 {
-    public class LogRespository : BaseRespository<TaskSchedulerDbContext, LogInfo>
+    public class LogRepository : BaseRepository<TaskSchedulerDbContext, LogInfo>
     {
-        public LogRespository(TaskSchedulerDbContext db) : base(db)
+        public LogRepository(TaskSchedulerDbContext db) : base(db)
         {
             
         }

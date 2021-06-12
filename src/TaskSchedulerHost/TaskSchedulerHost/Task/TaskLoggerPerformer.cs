@@ -71,7 +71,7 @@ namespace TaskSchedulerHost.Task
                     {
                         using (var scope = provider.CreateScope())
                         {
-                            var logRespository = scope.ServiceProvider.GetService<LogRespository>();
+                            var logRespository = scope.ServiceProvider.GetService<LogRepository>();
                             if (logRespository.Insert(list) > 0)
                             {
                                 _logger.Remove(list);
