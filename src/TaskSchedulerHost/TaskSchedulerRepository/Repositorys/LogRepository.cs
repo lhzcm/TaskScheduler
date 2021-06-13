@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskSchedulerModel.Models;
-using TaskSchedulerRespository.DbContexts;
+using TaskSchedulerRepository.DbContexts;
 
-namespace TaskSchedulerRespository.Respositorys
+namespace TaskSchedulerRepository.Repositorys
 {
     public class LogRepository : BaseRepository<TaskSchedulerDbContext, LogInfo>
     {

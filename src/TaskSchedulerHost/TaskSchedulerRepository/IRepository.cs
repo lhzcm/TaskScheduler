@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskSchedulerModel.Models;
 
-namespace TaskSchedulerRespository
+namespace TaskSchedulerRepository
 {
     public interface IRepository<TEntity> where TEntity : class
     {

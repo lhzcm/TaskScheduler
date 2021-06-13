@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TaskSchedulerModel.Models;
-using TaskSchedulerRespository.Respositorys;
+using TaskSchedulerRepository.Repositorys;
 
 namespace TaskSchedulerHost.Task
 {

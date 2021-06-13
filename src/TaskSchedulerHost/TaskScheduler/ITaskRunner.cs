@@ -18,6 +18,8 @@ namespace TaskScheduler
         void LogWarring(string msg);
         void LogInfo(string msg);
         void LogMessage(string msg);
+        void CommandRecive(string command);
+        void Command(string command);
 
         void Run(int appId);
     }

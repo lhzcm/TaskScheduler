@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TaskSchedulerModel.Models;
-using TaskSchedulerRespository.Respositorys;
 
 namespace TaskSchedulerHost.Task
 {

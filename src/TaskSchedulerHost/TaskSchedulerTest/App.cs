@@ -37,7 +37,7 @@ namespace TaskSchedulerTest
             //Main();
 
             int i = 0;
-            while (true)
+            while (Running)
             {
                 i++;
                 LogMessage("执行第" + i.ToString() + "次");

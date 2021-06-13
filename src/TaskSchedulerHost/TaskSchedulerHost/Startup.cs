@@ -10,11 +10,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TaskSchedulerRespository.DbContexts;
+using TaskSchedulerRepository.DbContexts;
 using System.Reflection;
 using System.IO;
-using TaskSchedulerRespository.Respositorys;
 using TaskSchedulerHost.Task;
+using TaskSchedulerRepository.Repositorys;
 
 namespace TaskSchedulerHost
 {
@@ -37,6 +37,7 @@ namespace TaskSchedulerHost
             services.AddDbContext<TaskSchedulerDbContext>((op) => op.UseSqlServer(Configuration.GetConnectionString("TaskScheduler")));
             services.AddScoped<TaskRepository>();
             services.AddScoped<LogRepository>();
+            services.AddScoped<TaskCommandRepository>();
             services.AddControllers();
             services.AddScoped<TaskManager>();
 

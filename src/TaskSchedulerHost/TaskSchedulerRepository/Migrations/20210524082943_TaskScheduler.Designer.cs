@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskSchedulerRespository.DbContexts;
+using TaskSchedulerRepository.DbContexts;
 
-namespace TaskSchedulerRespository.Migrations
+namespace TaskSchedulerRepository.Migrations
 {
     [DbContext(typeof(TaskSchedulerDbContext))]
     [Migration("20210524082943_TaskScheduler")]

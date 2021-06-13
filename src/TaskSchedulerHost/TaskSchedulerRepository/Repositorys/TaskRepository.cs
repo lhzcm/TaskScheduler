@@ -6,10 +6,10 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TaskSchedulerModel.Models;
-using TaskSchedulerRespository.DbContexts;
+using TaskSchedulerRepository.DbContexts;
 using Z.EntityFramework.Plus;
 
-namespace TaskSchedulerRespository.Respositorys
+namespace TaskSchedulerRepository.Repositorys
 {
     public class TaskRepository : BaseRepository<TaskSchedulerDbContext, TaskInfo>
     {

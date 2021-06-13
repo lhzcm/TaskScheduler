@@ -7,7 +7,7 @@ using TaskSchedulerHost.Models;
 
 namespace TaskSchedulerHost.Controllers
 {
-    public class BaseController : ControllerBase
+    public abstract class BaseController : ControllerBase
     {
         protected Result Fail(string msg, object data = null)
         {

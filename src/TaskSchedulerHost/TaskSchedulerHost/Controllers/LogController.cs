@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskSchedulerHost.Models;
-using TaskSchedulerRespository.Respositorys;
+using TaskSchedulerRepository.Repositorys;
 
 namespace TaskSchedulerHost.Controllers
 {

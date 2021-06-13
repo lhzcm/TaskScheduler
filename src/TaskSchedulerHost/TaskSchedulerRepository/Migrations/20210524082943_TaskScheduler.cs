@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TaskSchedulerRespository.Migrations
+namespace TaskSchedulerRepository.Migrations
 {
     public partial class TaskScheduler : Migration
     {

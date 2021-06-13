@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskSchedulerRespository.DbContexts;
+using TaskSchedulerRepository.DbContexts;
 
-namespace TaskSchedulerRespository.Migrations
+namespace TaskSchedulerRepository.Migrations
 {
     [DbContext(typeof(TaskSchedulerDbContext))]
     partial class TaskSchedulerDbContextModelSnapshot : ModelSnapshot
@@ -44,6 +44,36 @@ namespace TaskSchedulerRespository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("t_log");
+                });
+
+            modelBuilder.Entity("TaskSchedulerModel.Models.TaskCommandInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Command")
+                        .IsRequired()
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("WriteTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("t_task_command");
                 });
 
             modelBuilder.Entity("TaskSchedulerModel.Models.TaskInfo", b =>

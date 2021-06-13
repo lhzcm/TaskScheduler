@@ -10,7 +10,7 @@ using Z.EntityFramework.Extensions.EFCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Linq.Expressions;
 
-namespace TaskSchedulerRespository.Respositorys
+namespace TaskSchedulerRepository.Repositorys
 {
     public abstract class BaseRepository<T, TEntity> : IRepository<TEntity> where T : DbContext where TEntity : class
     {

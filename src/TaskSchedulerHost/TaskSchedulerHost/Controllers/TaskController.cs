@@ -7,11 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using TaskSchedulerHost.Models;
 using TaskSchedulerModel.Models;
-using TaskSchedulerRespository.Respositorys;
+using TaskSchedulerRepository.Repositorys;
 using System.IO.Compression;
 using Microsoft.Extensions.Logging;
 using TaskSchedulerHost.Task;
 using System.Diagnostics;
+using TaskSchedulerHost.Task.Extend;
 
 namespace TaskSchedulerHost.Controllers
 {
@@ -54,47 +55,10 @@ namespace TaskSchedulerHost.Controllers
                 {
                     return Fail("运行失败，任务正在运行中");
                 }
-                if (task.Process == null)
+                //启动任务
+                if (!task.Start())
                 {
-                    List<string> args = new List<string>();
-                    args.Add(task.Id.ToString());
-
-                    ProcessStartInfo startInfo = new ProcessStartInfo(task.ExecFile, String.Join(" ", args));
-                    var path = Path.Combine(Environment.CurrentDirectory, task.ExecFile.Replace("./", "").Replace("/", "\\"));
-                    path = Path.GetDirectoryName(path);
-                    startInfo.WorkingDirectory = path;
-
-                    task.Process = Process.Start(startInfo);
-                    if (task.Process == null)
-                    {
-                        return Fail("进程启动失败");
-                    }
-                    //退出事件
-                    task.Process.Exited += (object? sender, EventArgs e)=> {
-                        
-                        var proc = sender as Process;
-                        if (proc == null || proc.ExitCode == 0)
-                            return;
-
-                        var curtask = _manager.GetTasks(n => n.Process == proc).FirstOrDefault();
-                        if (curtask == null)
-                            return;
-
-                        TaskLogger taskLogger = new TaskLogger();
-
-                        if (curtask.HasExistCommand)
-                        {
-                            taskLogger.Add(new LogInfo { TaskId = curtask.Id, Level = TaskSchedulerModel.Models.LogLevel.Info, Message = "【任务手动退出成功】ExistCode:" + proc.ExitCode });
-                        }
-                        else
-                        {
-                            taskLogger.Add(new LogInfo { TaskId = curtask.Id, Level = TaskSchedulerModel.Models.LogLevel.Error, Message = "【任务异常退出】ExistCode:" + proc.ExitCode });
-                        }
-                    };
-                }
-                else
-                {
-                    task.Process.Start();
+                    return Fail("任务启动失败！");
                 }
                 task.HasExistCommand = false;
                 return Success("程序运行成功");

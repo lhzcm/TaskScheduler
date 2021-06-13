@@ -18,10 +18,14 @@ namespace TaskSchedulerApp
         public readonly int AppId;
         public readonly string AppPath;
 
-        public TaskApp(int appId)
+        private ITaskRunner _runner;
+        private string _commandPipeHandle;
+
+        public TaskApp(int appId, string commandPipeHandle)
         {
             AppId = appId;
             AppPath = Environment.CurrentDirectory;
+            this._commandPipeHandle = commandPipeHandle;
         }
 
         public void Run()
@@ -59,18 +63,21 @@ namespace TaskSchedulerApp
                     throw new Exception("找到多个存在继承于ITaskRunner的类型");
                 }
 
-                var runner = System.Activator.CreateInstance(types[0]) as ITaskRunner;
-                if (runner == null)
+                _runner = System.Activator.CreateInstance(types[0]) as ITaskRunner;
+                if (_runner == null)
                 {
                     throw new Exception("实例化对象失败");
                 }
-                
-                Thread thread = new Thread(()=>ExecLogQuenuen(runner));
+                //创建日志队列线程
+                Thread thread = new Thread(()=>ExecLogQuenuen(_runner));
+                thread.Start();
+                //创建命令接送线程
+                thread = new Thread(CommandListen);
                 thread.Start();
                 try
                 {
                     SendLog(new LogInfo { Level = LogLevel.Info, Message = "【开始执行】", WriteTime = DateTime.Now });
-                    runner.Run(AppId);
+                    _runner.Run(AppId);
                     SendLog(new LogInfo { Level = LogLevel.Info, Message = "【执行结束并退出】", WriteTime = DateTime.Now });
                 }
                 catch (Exception ex)
@@ -86,13 +93,10 @@ namespace TaskSchedulerApp
             
         }
         
-        public static TaskApp Init(int appId)
+        public static TaskApp Init(int appId, string commandPipeHandle)
         {
-            var taskApp = new TaskApp(appId);
+            var taskApp = new TaskApp(appId, commandPipeHandle);
             return taskApp;
-
-            
-          
         }
 
         public void ExecLogQuenuen(ITaskRunner runner)
@@ -135,6 +139,24 @@ namespace TaskSchedulerApp
                 Console.WriteLine(ex.Message + ex.StackTrace);
             }
             return false;
+        }
+
+        public void CommandListen()
+        {
+            Console.WriteLine(_commandPipeHandle);
+            Console.WriteLine("pipe start");
+
+            using (AnonymousPipeClientStream pipe = new AnonymousPipeClientStream(PipeDirection.In, _commandPipeHandle))
+            {
+                byte[] commandByte = new byte[1024];
+                while (true)
+                {
+                    int count = pipe.Read(commandByte, 0, commandByte.Length);
+                    string command = Encoding.UTF8.GetString(commandByte, 0, count);
+                    Console.WriteLine(command);
+                    _runner.Command(command);
+                }
+            }
         }
     }
 }

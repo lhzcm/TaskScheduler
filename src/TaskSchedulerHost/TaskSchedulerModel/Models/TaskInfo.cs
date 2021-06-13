@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,8 @@ namespace TaskSchedulerModel.Models
         [JsonConverterDateTime]
         public DateTime WriteTime { get; set; }
 
+
+        #region 非表字段
         /// <summary>
         /// 进程信息
         /// </summary>
@@ -86,5 +89,12 @@ namespace TaskSchedulerModel.Models
                 }
             }
         }
+        /// <summary>
+        /// 与任务通信匿名管道
+        /// </summary>
+        [NotMapped]
+        [System.Text.Json.Serialization.JsonIgnore]
+        public AnonymousPipeServerStream Pipe { get; set; }
+        #endregion
     }
 }
