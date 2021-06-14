@@ -192,34 +192,24 @@ namespace TaskSchedulerHost.Controllers
             }
         }
 
-        /// <summary>
-        /// 获取所有任务
-        /// </summary>
-        [HttpGet("{page}/{pagesize}")]
-        public Result TaskList(int page, int pagesize)
-        {
-            try
-            {
-                var list = _manager.GetTasks();
-                var result = list.Skip((page - 1) * pagesize).Take(pagesize).ToList();
-                return Success(new { list = result, total = list.Count});
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message + ex.StackTrace);
-                return Fail("系统错误");
-            }
-        }
 
         /// <summary>
         /// 获取所有任务
         /// </summary>
-        [HttpGet("{page}/{pagesize}/{name}")]
-        public Result TaskList(int page, int pagesize, string name)
+        [HttpGet("{page}/{pagesize}/{name?}")]
+        public Result TaskList(int page, int pagesize, string? name)
         {
             try
             {
-                var list = _manager.GetTasks().Where(n => n.Name.Contains(name)).ToList();
+                List<TaskInfo> list;
+                if (name == null)
+                {
+                    list = _manager.GetTasks().ToList();
+                }
+                else
+                {
+                    list = _manager.GetTasks().Where(n => n.Name.Contains(name)).ToList();
+                }
                 var result = list.Skip((page - 1) * pagesize).Take(pagesize).ToList();
                 return Success(new { list = result, total = list.Count });
             }

@@ -10,7 +10,16 @@ namespace TaskScheduler
     public abstract class TaskRunner : ITaskRunner
     {
         private List<LogInfo> _logQuenuen = new List<LogInfo>();
-        public List<LogInfo> LogQueuen => _logQuenuen.ToList();
+        public List<LogInfo> LogQueuen
+        {
+            get
+            {
+                lock (obj)
+                {
+                    return _logQuenuen.ToList();
+                }
+            }
+        }
         private static object obj = new object();
 
         private bool _running = true;
