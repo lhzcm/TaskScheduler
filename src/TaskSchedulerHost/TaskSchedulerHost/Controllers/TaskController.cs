@@ -32,13 +32,8 @@ namespace TaskSchedulerHost.Controllers
             this._manager = manager;
         }
 
-        private void Test(object? sender, EventArgs e)
-        {
-            Console.WriteLine("结束");
-        }
-
         /// <summary>
-        /// 运行任务
+        /// 运行任务 
         /// </summary>
         /// <param name="Id">任务id</param>
         [HttpPost("Run")]

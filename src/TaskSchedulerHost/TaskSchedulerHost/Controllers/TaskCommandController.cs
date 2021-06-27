@@ -110,5 +110,27 @@ namespace TaskSchedulerHost.Controllers
                 return Fail("系统错误");
             }
         }
+
+        /// <summary>
+        /// 删除命令
+        /// </summary>
+        /// <param name="tcid">命令id</param>
+        [HttpDelete]
+        public Result CommandDel(int tcid)
+        {
+            try
+            {
+                if (_repository.Delete(n => n.Id == tcid) > 0)
+                {
+                    return Success(null, "删除成功");
+                }
+                return Fail("删除失败");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return Fail("系统错误");
+            }
+        }
     }
 }

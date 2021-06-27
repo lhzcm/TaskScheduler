@@ -151,11 +151,42 @@
             </el-table>
             </el-container>
         </el-dialog>
+
+        <!-- 命令列表 -->
+        <!-- <el-dialog title="命令列表" v-model="commandVisiable" width="80%">
+            <el-container class="tableLogSection">
+                <el-table
+                :data="tableData"
+                border
+                class="table"
+                ref="multipleTable"
+                header-cell-class-name="table-header"
+            >
+                <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+                <el-table-column prop="name" label="命令名称"></el-table-column>
+                <el-table-column label="操作" width="260" align="center">
+                    <template #default="scope">
+                        <el-button
+                            type="text"
+                            icon="el-icon-lx-text"
+                            @click="taskLog(scope.row)"
+                        >发送</el-button>
+                        <el-button
+                            type="text"
+                            icon="el-icon-delete"
+                            class="red"
+                            @click="handleDelete(scope.$index, scope.row)"
+                        >删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            </el-container>
+        </el-dialog> -->
     </div>
 </template>
 
 <script>
-import { addTask, deleteTask, fetchData, getLogList, killTask, runTask, updateTask } from "../api/index";
+import taskApi from "../api/task";
 export default {
     name: "tasklist",
     data() {
@@ -184,7 +215,12 @@ export default {
             },
             logList:[],
             idx: -1,
-            id: -1
+            id: -1,
+
+            //命令
+            commandVisiable: false,
+            commandList: [],
+
         };
     },
     created() {
@@ -196,7 +232,7 @@ export default {
     },
     methods: {
         getData() {
-            fetchData(this.query).then(res => {
+            taskApi.taskList(this.query).then(res => {
                 console.log(res);
                 this.tableData = res.data.list;
                 this.pageTotal = res.data.total || 50;
@@ -215,7 +251,7 @@ export default {
                 type: "warning"
             })
                 .then(() => {
-                    deleteTask({id:row.id}).then(res=>{
+                    taskApi.deleteTask({id:row.id}).then(res=>{
                         if(res.code == 0){
                             this.$message.success(res.msg);
                             this.tableData.splice(index, 1);
@@ -230,7 +266,7 @@ export default {
 
         //运行任务
         taskRun(row){
-            runTask({id:row.id}).then(res=>{
+            taskApi.runTask({id:row.id}).then(res=>{
                 if(res.code == 0){
                     this.$message.success(res.msg);
                 }else{
@@ -242,7 +278,7 @@ export default {
 
         //停止任务
         taskKill(row){
-            killTask({id:row.id}).then(res=>{
+            taskApi.killTask({id:row.id}).then(res=>{
                 if(res.code == 0){
                     this.$message.success(res.msg);
                 }else{
@@ -260,7 +296,7 @@ export default {
          // 更新任务
         taskUpdate() {
             var formData = new FormData(document.getElementById("updateform"));
-            updateTask(formData).then(res=>{
+            taskApi.updateTask(formData).then(res=>{
                if(res.code == 0){
                     this.$message.success(res.msg);
                     this.updateVisible = false;
@@ -275,7 +311,7 @@ export default {
         //添加任务
         taskAdd(){
             var formData = new FormData(document.getElementById("addform"));
-            addTask(formData).then(res=>{
+            taskApi.addTask(formData).then(res=>{
                if(res.code == 0){
                     this.$message.success(res.msg);
                     this.addVisible = false;
@@ -288,7 +324,7 @@ export default {
         taskEdit() {
             this.editVisible = false;
             var formData = new FormData(document.getElementById("editform"));
-            addTask(formData).then(res=>{
+            taskApi.addTask(formData).then(res=>{
                 if(res.code == 0){
                     this.$message.success(res.msg);
                 }else{
@@ -301,11 +337,11 @@ export default {
         taskLog(row){
             this.logVisible = true;
             var that = this;
-            getLogList({taskId:row.id, page:1, pageSize:100}).then((res)=>{
+            taskApi.getLogList({taskId:row.id, page:1, pageSize:100}).then((res)=>{
                 that.logList = res.data.list;
             })
             this.tickerLog = setInterval(()=>{
-                    getLogList({taskId:row.id, page:1, pageSize:100}).then((res)=>{
+                    taskApi.getLogList({taskId:row.id, page:1, pageSize:100}).then((res)=>{
                     that.logList = res.data.list;
                 })
             },2000)
