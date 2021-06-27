@@ -12,6 +12,7 @@ TaskScheduler任务管理系统是为了解决多个独立任务进程在电脑�
 
 -   [ ] 登录/注册
 -   [x] 任务管理
+-   [x] 命令管理
 -   [ ] 日志管理
 -   [ ] 任务资源占用信息
 -   [ ] 任务预警
@@ -21,12 +22,13 @@ TaskScheduler任务管理系统是为了解决多个独立任务进程在电脑�
 ## 项目截图
 
 ### 任务管理界面
-
-![image](https://user-images.githubusercontent.com/31691621/120954812-96866c80-c782-11eb-805c-798c4c459ddf.png)
+<img width="1119" alt="7886b552e7a4af16ad3f3a775680392" src="https://user-images.githubusercontent.com/31691621/123547871-122d7500-d795-11eb-8da3-4cb941ece01a.png">
 
 ### 任务日志
+<img width="1112" alt="8bf36cc72995b19a9ae18d70c2843ca" src="https://user-images.githubusercontent.com/31691621/123547880-19548300-d795-11eb-86be-28d0f65ff8f3.png">
 
-![image](https://user-images.githubusercontent.com/31691621/120954928-d188a000-c782-11eb-9f45-6f6c764dd679.png)
+### 任务命令
+<img width="1115" alt="274d3cf0ec25360014f8f57d60bada1" src="https://user-images.githubusercontent.com/31691621/123547886-22455480-d795-11eb-886b-dfd572c10add.png">
 
 ## 鸣谢
 该项目前端框架来源于[vue-manage-system](https://github.com/lin-xin/vue-manage-system)
