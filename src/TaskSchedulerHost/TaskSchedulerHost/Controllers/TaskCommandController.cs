@@ -83,7 +83,7 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="tcid">命令id</param>
         [HttpPost("Command")]
-        public Result Command(int tcid)
+        public Result Command([FromForm] int tcid)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="tcid">命令id</param>
         [HttpDelete]
-        public Result CommandDel(int tcid)
+        public Result CommandDel([FromForm] int tcid)
         {
             try
             {
