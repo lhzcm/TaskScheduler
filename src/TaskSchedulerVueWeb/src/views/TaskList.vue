@@ -29,7 +29,6 @@
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
             >
                 <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
@@ -46,7 +45,7 @@
                 </el-table-column>
                 <el-table-column prop="updateTime" label="更新时间"></el-table-column>
                 <el-table-column prop="writeTime" label="创建时间"></el-table-column>
-                <el-table-column label="操作" width="260" align="center">
+                <el-table-column label="操作" width="320" align="center">
                     <template #default="scope">
                         <el-button
                             type="text"
@@ -67,8 +66,11 @@
                             @click="taskRun(scope.row)"
                             v-if="!scope.row.isRuning"
                         >运行</el-button>
-      
-
+                        <el-button
+                            type="text"
+                            icon="el-icon-postcard"
+                            @click="commandShow(scope.row)"
+                        >命令</el-button>
                         <el-button
                             type="text"
                             icon="el-icon-edit"
@@ -153,40 +155,60 @@
         </el-dialog>
 
         <!-- 命令列表 -->
-        <!-- <el-dialog title="命令列表" v-model="commandVisiable" width="80%">
+        <el-dialog title="命令列表" v-model="commandVisiable" width="800px">
+            <el-button type="primary" icon="el-icon-add" @click="addCommandVisible = true">添加</el-button>
             <el-container class="tableLogSection">
                 <el-table
-                :data="tableData"
+                :data="commandList"
                 border
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-                <el-table-column prop="name" label="命令名称"></el-table-column>
-                <el-table-column label="操作" width="260" align="center">
+                <el-table-column prop="description" label="命令名称"></el-table-column>
+                <el-table-column prop="command" label="命令"></el-table-column>
+                <el-table-column label="操作" width="180" align="center">
                     <template #default="scope">
                         <el-button
                             type="text"
-                            icon="el-icon-lx-text"
-                            @click="taskLog(scope.row)"
-                        >发送</el-button>
+                            icon="el-icon-caret-right"
+                            @click="sendCommand(scope.row)"
+                        >执行</el-button>
                         <el-button
                             type="text"
                             icon="el-icon-delete"
                             class="red"
-                            @click="handleDelete(scope.$index, scope.row)"
+                            @click="delCommand(scope.row)"
                         >删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
             </el-container>
-        </el-dialog> -->
+        </el-dialog>
+        <!-- 添加命令弹出框 -->
+        <el-dialog title="添加任务" v-model="addCommandVisible" width="30%">
+            <el-form ref="form" label-width="70px">
+                <el-form-item label="任务名称">
+                    <el-input name="description" v-model="commandAddForm.description"></el-input>
+                </el-form-item>
+                <el-form-item label="任务命令">
+                    <el-input name="command" v-model="commandAddForm.command"></el-input>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="addCommandVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="addCommmand">确 定</el-button>
+                </span>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
 <script>
 import taskApi from "../api/task";
+import commandApi from "../api/command";
 export default {
     name: "tasklist",
     data() {
@@ -220,6 +242,12 @@ export default {
             //命令
             commandVisiable: false,
             commandList: [],
+            addCommandVisible: false,
+            commandAddForm: {
+                description: "",
+                command: "",
+                taskId: 0,
+            }
 
         };
     },
@@ -233,7 +261,6 @@ export default {
     methods: {
         getData() {
             taskApi.taskList(this.query).then(res => {
-                console.log(res);
                 this.tableData = res.data.list;
                 this.pageTotal = res.data.total || 50;
             });
@@ -301,7 +328,7 @@ export default {
                     this.$message.success(res.msg);
                     this.updateVisible = false;
                 }else{
-                    this.$message.console.error(res.msg);
+                    this.$message.error(res.msg);
                 }
             })
         },
@@ -328,7 +355,7 @@ export default {
                 if(res.code == 0){
                     this.$message.success(res.msg);
                 }else{
-                    this.$message.console.error(res.msg);
+                    this.$message.error(res.msg);
                 }
             })
             
@@ -346,27 +373,76 @@ export default {
                 })
             },2000)
         },
-        //日志行列
-        taskRowClass(row){
-
-            if(row.row.level == 0 ){
-                return {"background": "rgba(255, 0, 0, 0.466)"}
-            }
-            if(row.row.level == 1 ){
-               return {"background": "rgba(255, 255, 0, 0.466)"}
-            }
-            if(row.row.level == 2 ){
-               return {"background": "rgba(0, 0, 255, 0.466)"}
-            }
-            if(row.row.level == 3 ){
-                return {"background": "rgba(0, 128, 0, 0.466)"}
-            }
-        },
         //关闭日志
         closeLogList(done){
             clearInterval(this.tickerLog);
             done();
         },
+        //显示命令
+        commandShow(row){
+            var that = this
+            that.commandVisiable = true;
+            that.commandList = [];
+            that.commandAddForm.taskId = row.id
+            commandApi.getCommands(row.id).then((res)=>{
+                if(res.code == 0){
+                    that.commandList = res.data;
+                }else{
+                    this.$message.error(res.msg);
+                }
+            })
+        },
+        //发送命令
+        sendCommand(row){
+            commandApi.sendCommand(row.id).then((res)=>{
+                 if(res.code == 0){
+                     this.$message.success(res.msg);
+                }else{
+                    this.$message.error(res.msg);
+                }
+                
+            })
+        },
+
+        //删除命令
+        delCommand(row){
+            var that = this
+            commandApi.delCommand(row.id).then((res)=>{
+                if(res.code == 0){
+                     this.$message.success(res.msg);
+                }else{
+                    this.$message.error(res.msg);
+                }
+                //重新加载数据
+                commandApi.getCommands(row.taskId).then((res)=>{
+                if(res.code == 0){
+                    that.commandList = res.data;
+                }else{
+                    this.$message.error(res.msg);
+                }
+            })
+            })
+        },
+        //添加命令
+        addCommmand(){
+            var that = this
+            commandApi.addCommand(this.commandAddForm).then((res)=>{
+                if(res.code == 0){
+                    this.$message.success(res.msg);
+                    that.addCommandVisible = false;
+                }else{
+                    this.$message.error(res.msg);
+                }
+                //重新加载数据
+                commandApi.getCommands(that.commandAddForm.taskId).then((res)=>{
+                if(res.code == 0){
+                    that.commandList = res.data;
+                }else{
+                    this.$message.error(res.msg);
+                }
+            })})
+        },
+
         // 分页导航
         handlePageChange(val) {
             this.query.pageIndex = val;

@@ -89,7 +89,7 @@ namespace TaskSchedulerRepository.Repositorys
 
         public TEntity FindFirst(Expression<Func<TEntity, bool>> whereCase)
         {
-            return _db.Set<TEntity>().Where(whereCase).First();
+            return _db.Set<TEntity>().Where(whereCase).FirstOrDefault();
         }
 
         public T DbContext => _db;

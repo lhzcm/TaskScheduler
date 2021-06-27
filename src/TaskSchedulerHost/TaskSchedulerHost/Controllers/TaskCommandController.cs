@@ -33,11 +33,11 @@ namespace TaskSchedulerHost.Controllers
         /// <param name="description">命令描述</param>
         /// <param name="command">命令</param>
         [HttpPost("Add")]
-        public Result Add([FromForm]int taskId, [FromForm] string description, [FromForm] string command)
+        public Result Add([FromForm] int taskId, [FromForm] string description, [FromForm] string command)
         {
             try
             {
-                if (!_manager.GetTasks().Any(n=>n.Id == taskId))
+                if (!_manager.GetTasks().Any(n => n.Id == taskId))
                 {
                     return Fail("添加失败，没有找到对应的任务");
                 }
@@ -63,7 +63,7 @@ namespace TaskSchedulerHost.Controllers
         /// <summary>
         /// 获取所有命令
         /// </summary>
-        [HttpGet]
+        [HttpGet("{taskId}")]
         public Result List(int taskId)
         {
             try
