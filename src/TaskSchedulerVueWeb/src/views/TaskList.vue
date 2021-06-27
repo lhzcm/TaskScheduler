@@ -58,7 +58,7 @@
                             icon="el-icon-circle-close"
                             @click="taskKill(scope.row)"
                             v-if="scope.row.isRuning"
-                        >停止</el-button>
+                        >终止</el-button>
 
                         <el-button
                             type="text"
@@ -394,7 +394,7 @@ export default {
         },
         //发送命令
         sendCommand(row){
-            commandApi.sendCommand(row.id).then((res)=>{
+            commandApi.sendCommand(row.taskId, row.id).then((res)=>{
                  if(res.code == 0){
                      this.$message.success(res.msg);
                 }else{

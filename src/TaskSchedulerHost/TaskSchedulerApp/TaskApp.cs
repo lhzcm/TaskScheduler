@@ -28,6 +28,9 @@ namespace TaskSchedulerApp
             this._commandPipeHandle = commandPipeHandle;
         }
 
+        /// <summary>
+        /// 运行任务
+        /// </summary>
         public void Run()
         {
             try
@@ -77,6 +80,7 @@ namespace TaskSchedulerApp
                 try
                 {
                     SendLog(new LogInfo { Level = LogLevel.Info, Message = "【开始执行】", WriteTime = DateTime.Now });
+                    _runner.Running = true;
                     _runner.Run(AppId);
                     SendLog(new LogInfo { Level = LogLevel.Info, Message = "【执行结束并退出】", WriteTime = DateTime.Now });
                 }
@@ -93,6 +97,12 @@ namespace TaskSchedulerApp
             
         }
         
+        /// <summary>
+        /// 初始化任务
+        /// </summary>
+        /// <param name="appId">任务id</param>
+        /// <param name="commandPipeHandle">命令匿名管道话柄</param>
+        /// <returns>任务对象</returns>
         public static TaskApp Init(int appId, string commandPipeHandle)
         {
             var taskApp = new TaskApp(appId, commandPipeHandle);
@@ -115,6 +125,11 @@ namespace TaskSchedulerApp
             }
         }
 
+        /// <summary>
+        /// 发送日志
+        /// </summary>
+        /// <param name="log">日志</param>
+        /// <returns>是否发送成功</returns>
         public bool SendLog(LogInfo log)
         {
             log.Id = 0;
@@ -141,11 +156,11 @@ namespace TaskSchedulerApp
             return false;
         }
 
+        /// <summary>
+        /// 监听命令
+        /// </summary>
         public void CommandListen()
         {
-            Console.WriteLine(_commandPipeHandle);
-            Console.WriteLine("pipe start");
-
             using (AnonymousPipeClientStream pipe = new AnonymousPipeClientStream(PipeDirection.In, _commandPipeHandle))
             {
                 byte[] commandByte = new byte[1024];
@@ -153,8 +168,19 @@ namespace TaskSchedulerApp
                 {
                     int count = pipe.Read(commandByte, 0, commandByte.Length);
                     string command = Encoding.UTF8.GetString(commandByte, 0, count);
-                    Console.WriteLine(command);
-                    _runner.Command(command);
+                    if (command == "quit")
+                    {
+                        _runner.Running = false;
+                    }
+                    try
+                    {
+                        SendLog(new LogInfo { TaskId = AppId, Level = LogLevel.Info, Message = "【执行命令】" + command });
+                        _runner.Command(command);
+                    }
+                    catch (Exception ex)
+                    {
+                        SendLog(new LogInfo { TaskId = AppId, Level = LogLevel.Error, Message = "【执行命令出错】" + ex.Message + ex.StackTrace });
+                    }
                 }
             }
         }

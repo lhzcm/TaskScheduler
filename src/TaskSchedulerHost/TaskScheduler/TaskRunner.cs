@@ -22,8 +22,7 @@ namespace TaskScheduler
         }
         private static object obj = new object();
 
-        private bool _running = true;
-        protected bool Running => _running;
+        public bool Running { get; set; }
 
         public abstract void Run(int appId);
 
@@ -71,16 +70,6 @@ namespace TaskScheduler
         public virtual void Command(string command)
         {
             
-        }
-
-        public void CommandRecive(string command)
-        {
-            LogInfo("【接收到命令：" + command + "】");
-            if (command == "quit")
-            {
-                this._running = false;
-            }
-            Command(command);
         }
     }
 }

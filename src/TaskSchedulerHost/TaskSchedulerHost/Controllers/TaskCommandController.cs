@@ -35,6 +35,10 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost("Add")]
         public Result Add([FromForm] int taskId, [FromForm] string description, [FromForm] string command)
         {
+            if (command == "quit")
+            {
+                return Fail("添加失败，quit为系统命令，无法手动添加");
+            }
             try
             {
                 if (!_manager.GetTasks().Any(n => n.Id == taskId))
@@ -69,6 +73,7 @@ namespace TaskSchedulerHost.Controllers
             try
             {
                 var list = _repository.Find(n=>n.TaskId == taskId);
+                list.Add(new TaskCommandInfo { TaskId = taskId, Id = -1, Description = "停止", Command = "quit" });
                 return Success(list);
             }
             catch (Exception ex)
@@ -83,11 +88,19 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="tcid">命令id</param>
         [HttpPost("Command")]
-        public Result Command([FromForm] int tcid)
+        public Result Command([FromForm] int taskId, [FromForm] int tcid)
         {
             try
             {
-                var taskCommand = _repository.FindFirst(n=>n.Id == tcid);
+                TaskCommandInfo taskCommand;
+                if (tcid == -1)
+                {
+                    taskCommand = new TaskCommandInfo { TaskId = taskId, Description = "停止", Command = "quit" };
+                }
+                else
+                {
+                    taskCommand = _repository.FindFirst(n => n.Id == tcid);
+                }
                 if (taskCommand == null)
                 {
                     return Fail("发送失败，没有找到命令");
@@ -118,6 +131,10 @@ namespace TaskSchedulerHost.Controllers
         [HttpDelete]
         public Result CommandDel([FromForm] int tcid)
         {
+            if (tcid == -1)
+            {
+                return Fail("删除失败，系统命令无法删除");
+            }
             try
             {
                 if (_repository.Delete(n => n.Id == tcid) > 0)
