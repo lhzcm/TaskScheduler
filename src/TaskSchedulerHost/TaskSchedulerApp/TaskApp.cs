@@ -94,6 +94,12 @@ namespace TaskSchedulerApp
                 Console.WriteLine(ex.Message + ex.StackTrace);
                 SendLog(new LogInfo { Level = LogLevel.Error, Message = ex.Message + ex.StackTrace, WriteTime = DateTime.Now });
             }
+
+            //结束时把队列中的任务发送完
+            if (_runner != null)
+            {
+                SendQuenuenLog(_runner);
+            }
             
         }
         
@@ -109,20 +115,34 @@ namespace TaskSchedulerApp
             return taskApp;
         }
 
+        /// <summary>
+        /// 执行日志队列
+        /// </summary>
+        /// <param name="runner">运行的目标Task</param>
         public void ExecLogQuenuen(ITaskRunner runner)
         {
             while (true)
             {
-                var quenuen = runner.LogQueuen;
-                foreach (var item in quenuen)
-                {
-                    if (SendLog(item))
-                    {
-                        runner.LogQueuenRemove(item);
-                    }
-                }
+                SendQuenuenLog(runner);
                 Thread.Sleep(1000);
             }
+        }
+
+        /// <summary>
+        /// 发送队列中所有日志
+        /// </summary>
+        /// <param name="runner">运行的目标Task</param>
+        public void SendQuenuenLog(ITaskRunner runner)
+        {
+            var quenuen = runner.LogQueuen;
+            foreach (var item in quenuen)
+            {
+                if (SendLog(item))
+                {
+                    runner.LogQueuenRemove(item);
+                }
+            }
+            Thread.Sleep(1000);
         }
 
         /// <summary>
