@@ -92,6 +92,11 @@ namespace TaskSchedulerRepository.Repositorys
             return _db.Set<TEntity>().Where(whereCase).FirstOrDefault();
         }
 
+        public bool Exists(Expression<Func<TEntity, bool>> whereCase)
+        {
+            return _db.Set<TEntity>().Any(whereCase);
+        }
+
         public T DbContext => _db;
     }
 }

@@ -21,6 +21,8 @@
     <Compile Include="Migrations\20210613112554_TaskScheduler5.Designer.cs" />
     <Compile Include="Migrations\20210613114139_TaskScheduler6.cs" />
     <Compile Include="Migrations\20210613114139_TaskScheduler6.Designer.cs" />
+    <Compile Include="Migrations\20210705120435_TaskScheduler7.cs" />
+    <Compile Include="Migrations\20210705120435_TaskScheduler7.Designer.cs" />
     <Compile Include="Migrations\TaskSchedulerDbContextModelSnapshot.cs" />
   </ItemGroup>
 

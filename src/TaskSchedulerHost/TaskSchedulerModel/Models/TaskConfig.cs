@@ -8,32 +8,29 @@ using System.Threading.Tasks;
 
 namespace TaskSchedulerModel.Models
 {
-    [Table("t_task_command")]
-    public class TaskCommandInfo : BaseModel
+    [Table("t_task_config")]
+    public class TaskConfig : BaseModel
     {
         /// <summary>
         /// 任务id
         /// </summary>
         public int TaskId { get; set; }
-        
-        /// <summary>
-        /// 命令描述
-        /// </summary>
-        [Required]
-        [Column(TypeName = "varchar(128)")]
-        public string Description { get; set; }
 
         /// <summary>
-        /// 命令
+        /// 配置key
         /// </summary>
         [Required]
-        [Column(TypeName = "varchar(64)")]
-        public string Command { get; set; }
+        [Column(TypeName = "varchar(256)")]
+        public string Key { get; set; }
 
         /// <summary>
-        /// 添加时间
+        /// 配置值
         /// </summary>
-        [Column(TypeName = "datetime")]
+        [Required]
+        [Column(TypeName = "varchar(2048)")]
+        public string Value { get; set; }
+
         public DateTime WriteTime { get; set; }
+
     }
 }

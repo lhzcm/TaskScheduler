@@ -38,6 +38,7 @@ namespace TaskSchedulerHost
             services.AddScoped<TaskRepository>();
             services.AddScoped<LogRepository>();
             services.AddScoped<TaskCommandRepository>();
+            services.AddScoped<TaskConfigRepository>();
             services.AddControllers();
             services.AddScoped<TaskManager>();
 
