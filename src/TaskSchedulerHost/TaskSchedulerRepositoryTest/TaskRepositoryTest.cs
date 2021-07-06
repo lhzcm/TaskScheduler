@@ -78,5 +78,16 @@ namespace TaskSchedulerRespositoryTest
             var ret = respository.Update(n => n.Id == taskInfo.Id, n => new TaskInfo { UpdateTime = DateTime.Now });
             Assert.AreEqual(ret, 1);
         }
+
+        [TestMethod]
+        public void TestExists()
+        {
+            TaskRepository respository = new TaskRepository(new TaskSchedulerDbContext());
+
+            var taskInfo = new TaskInfo() { Name = "test", ExecFile = "" };
+            Assert.AreEqual(respository.Insert(taskInfo), 1);
+
+            Assert.IsTrue(respository.Exists(n => n.Id == taskInfo.Id));
+        }
     }
 }

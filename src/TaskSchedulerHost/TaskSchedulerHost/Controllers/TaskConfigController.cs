@@ -48,7 +48,7 @@ namespace TaskSchedulerHost.Controllers
 
             try
             {
-                if (_repository.Exists(n => n.Id == taskId && n.Key == key))
+                if (_repository.Exists(n => n.TaskId == taskId && n.Key == key))
                 {
                     return Fail("添加配置失败,存在重复的Key");
                 }
@@ -70,7 +70,7 @@ namespace TaskSchedulerHost.Controllers
         /// 获取配置列表
         /// </summary>
         /// <param name="taskId">任务ID</param>
-        [HttpGet]
+        [HttpGet("{taskId}")]
         public Result GetAll(int taskId)
         {
             try
@@ -90,7 +90,7 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="tcid">配置id</param>
         [HttpDelete]
-        public Result Del(int tcid)
+        public Result Del([FromForm]int tcid)
         {
             try
             {

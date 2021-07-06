@@ -17,16 +17,24 @@ namespace TaskSchedulerHost.Task.Extend
         /// </summary>
         /// <param name="task">任务</param>
         /// <returns>是否成功启动</returns>
-        public static bool Start(this TaskInfo task)
+        public static bool Start(this TaskInfo task, List<TaskConfig> configs)
         {
             //任务参数
             List<string> args = new List<string>();
+
+            //任务ID参数
             args.Add(task.Id.ToString());
 
             //配置匿名管道
             task.Pipe = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable);
             string clientHandle = task.Pipe.GetClientHandleAsString();
             args.Add(clientHandle);
+
+            //任务配置参数
+            if (configs != null && configs.Count > 0)
+            {
+                args.Add(String.Join(",", configs.Select(n => n.Key + ":" + n.Value)));
+            }
 
             try
             {

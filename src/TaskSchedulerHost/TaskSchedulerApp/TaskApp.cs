@@ -102,17 +102,58 @@ namespace TaskSchedulerApp
             }
             
         }
-        
+
         /// <summary>
         /// 初始化任务
         /// </summary>
         /// <param name="appId">任务id</param>
         /// <param name="commandPipeHandle">命令匿名管道话柄</param>
+        /// <param name="configs">配置文件</param>
         /// <returns>任务对象</returns>
-        public static TaskApp Init(int appId, string commandPipeHandle)
+        public static TaskApp Init(int appId, string commandPipeHandle, string configs)
         {
+            //初始化配置文件
+            if (!string.IsNullOrEmpty(configs))
+            {
+                Console.WriteLine(configs);
+                InitConfig(configs);
+            }
+
+            //创建任务app
             var taskApp = new TaskApp(appId, commandPipeHandle);
             return taskApp;
+        }
+
+        /// <summary>
+        /// 初始化配置信息
+        /// </summary>
+        /// <param name="configs">配置字符串</param>
+        public static void InitConfig(string configs)
+        {
+            string[] keyValueConfigs = configs.Split(',');
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+
+            //删除之前的配置
+            string[] oldKeys = config.AppSettings.Settings.AllKeys;
+            foreach (string item in oldKeys)
+            {
+                config.AppSettings.Settings.Remove(item);
+            }
+
+            //新加配置
+            foreach (var item in keyValueConfigs)
+            {
+                string[] keyValue = item.Split(':');
+                if (keyValue.Length != 2)
+                {
+                    continue;
+                }
+
+                config.AppSettings.Settings.Add(keyValue[0], keyValue[1]);
+            }
+            Console.WriteLine("save before");
+            config.Save();
         }
 
         /// <summary>

@@ -50,8 +50,11 @@ namespace TaskSchedulerHost.Controllers
                 {
                     return Fail("运行失败，任务正在运行中");
                 }
+                //查询配置文件
+                List<TaskConfig> configs = _repository.DbContext.TaskConfigs.Where(n => n.TaskId == Id).ToList();
+
                 //启动任务
-                if (!task.Start())
+                if (!task.Start(configs))
                 {
                     return Fail("任务启动失败！");
                 }
@@ -146,8 +149,8 @@ namespace TaskSchedulerHost.Controllers
                     System.IO.File.Copy(_config.ExecAppFile, task.ExecFile, true);
 
                     //复制配置文件
-                    var configFilePath = task.ExecFile + Path.GetExtension(_config.ExecAppConfig);
-                    System.IO.File.Copy(_config.ExecAppConfig, configFilePath, true);
+                    //var configFilePath = task.ExecFile + Path.GetExtension(_config.ExecAppConfig);
+                    //System.IO.File.Copy(_config.ExecAppConfig, configFilePath, true);
 
                     //复制类库
                     if (_config.ExecLibFile != null)
@@ -337,8 +340,8 @@ namespace TaskSchedulerHost.Controllers
                     System.IO.File.Copy(_config.ExecAppFile, execFile, true);
 
                     //复制配置文件
-                    var configFilePath = task.ExecFile + Path.GetExtension(_config.ExecAppConfig);
-                    System.IO.File.Copy(_config.ExecAppConfig, configFilePath, true);
+                    //var configFilePath = task.ExecFile + Path.GetExtension(_config.ExecAppConfig);
+                    //System.IO.File.Copy(_config.ExecAppConfig, configFilePath, true);
 
                     //复制类库
                     if (_config.ExecLibFile != null)

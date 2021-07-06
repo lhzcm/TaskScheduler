@@ -45,7 +45,7 @@
                 </el-table-column>
                 <el-table-column prop="updateTime" label="更新时间"></el-table-column>
                 <el-table-column prop="writeTime" label="创建时间"></el-table-column>
-                <el-table-column label="操作" width="320" align="center">
+                <el-table-column label="操作" width="380" align="center">
                     <template #default="scope">
                         <el-button
                             type="text"
@@ -73,7 +73,12 @@
                         >命令</el-button>
                         <el-button
                             type="text"
-                            icon="el-icon-edit"
+                            icon="el-icon-set-up"
+                            @click="configShow(scope.row)"
+                        >配置</el-button>
+                        <el-button
+                            type="text"
+                            icon="el-icon-refresh"
                             @click="taskUpdateShow(scope.row)"
                         >更新</el-button>
                         <el-button
@@ -203,12 +208,60 @@
                 </span>
             </template>
         </el-dialog>
+
+        <!-- 配置列表 -->
+        <el-dialog title="配置列表" v-model="configVisiable" width="800px">
+            <el-button type="primary" icon="el-icon-add" @click="addConfigVisible = true">添加</el-button>
+            <el-container class="tableLogSection">
+                <el-table
+                :data="configList"
+                border
+                class="table"
+                ref="multipleTable"
+                header-cell-class-name="table-header"
+            >
+                <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+                <el-table-column prop="key" label="配置键"></el-table-column>
+                <el-table-column prop="value" label="配置值"></el-table-column>
+                <el-table-column label="操作" width="180" align="center">
+                    <template #default="scope">
+                        <el-button
+                            type="text"
+                            icon="el-icon-delete"
+                            class="red"
+                            @click="delConfig(scope.row)"
+                        >删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            </el-container>
+        </el-dialog>
+
+        <!-- 添加配置弹出框 -->
+        <el-dialog title="添加配置" v-model="addConfigVisible" width="30%">
+            <el-form ref="form" label-width="70px">
+                <el-form-item label="配置键">
+                    <el-input name="key" v-model="configAddForm.key"></el-input>
+                </el-form-item>
+                <el-form-item label="配置值">
+                    <el-input name="value" v-model="configAddForm.value"></el-input>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="addConfigVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="addConfig">确 定</el-button>
+                </span>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
 <script>
 import taskApi from "../api/task";
 import commandApi from "../api/command";
+import configApi from "../api/config";
+
 export default {
     name: "tasklist",
     data() {
@@ -247,8 +300,17 @@ export default {
                 description: "",
                 command: "",
                 taskId: 0,
-            }
-
+            },
+            
+            //配置
+            configVisiable: false,
+            configList: [],
+            addConfigVisible: false,
+            configAddForm: {
+                key: "",
+                value: "",
+                taskId: 0,
+            },
         };
     },
     created() {
@@ -437,6 +499,61 @@ export default {
                 commandApi.getCommands(that.commandAddForm.taskId).then((res)=>{
                 if(res.code == 0){
                     that.commandList = res.data;
+                }else{
+                    this.$message.error(res.msg);
+                }
+            })})
+        },
+
+        //显示配置列表
+        configShow(row){
+            var that = this
+            that.configVisiable = true;
+            that.configList = [];
+            that.configAddForm.taskId = row.id
+            configApi.getConfigs(row.id).then((res)=>{
+                if(res.code == 0){
+                    that.configList = res.data;
+                }else{
+                    this.$message.error(res.msg);
+                }
+            })
+        },
+
+        //删除配置
+        delConfig(row){
+            var that = this
+            configApi.delConfig(row.id).then((res)=>{
+                if(res.code == 0){
+                     this.$message.success(res.msg);
+                }else{
+                    this.$message.error(res.msg);
+                }
+                //重新加载数据
+                configApi.getConfigs(row.taskId).then((res)=>{
+                if(res.code == 0){
+                    that.configList = res.data;
+                }else{
+                    this.$message.error(res.msg);
+                }
+            })
+            })
+        },
+
+        //添加配置
+        addConfig(){
+            var that = this
+            configApi.addConfig(this.configAddForm).then((res)=>{
+                if(res.code == 0){
+                    this.$message.success(res.msg);
+                    that.addConfigVisible = false;
+                }else{
+                    this.$message.error(res.msg);
+                }
+                //重新加载数据
+                configApi.getConfigs(that.configAddForm.taskId).then((res)=>{
+                if(res.code == 0){
+                    that.configList = res.data;
                 }else{
                     this.$message.error(res.msg);
                 }
