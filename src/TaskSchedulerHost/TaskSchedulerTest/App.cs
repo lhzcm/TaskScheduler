@@ -41,7 +41,6 @@ namespace TaskSchedulerTest
             {
                 i++;
                 LogMessage("执行第" + i.ToString() + "次");
-                Console.WriteLine(ConfigurationManager.AppSettings["test"]);
                 Thread.Sleep(5000);
             }
         }

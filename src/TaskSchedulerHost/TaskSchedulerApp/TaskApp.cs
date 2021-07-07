@@ -115,7 +115,6 @@ namespace TaskSchedulerApp
             //初始化配置文件
             if (!string.IsNullOrEmpty(configs))
             {
-                Console.WriteLine(configs);
                 InitConfig(configs);
             }
 
@@ -152,7 +151,6 @@ namespace TaskSchedulerApp
 
                 config.AppSettings.Settings.Add(keyValue[0], keyValue[1]);
             }
-            Console.WriteLine("save before");
             config.Save();
         }
 
