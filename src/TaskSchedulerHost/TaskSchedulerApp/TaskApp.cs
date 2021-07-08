@@ -149,7 +149,8 @@ namespace TaskSchedulerApp
                     continue;
                 }
 
-                config.AppSettings.Settings.Add(keyValue[0], keyValue[1]);
+                config.AppSettings.Settings.Add(Encoding.UTF8.GetString(Convert.FromBase64String(keyValue[0])),
+                    Encoding.UTF8.GetString(Convert.FromBase64String(keyValue[1])));
             }
             config.Save();
         }

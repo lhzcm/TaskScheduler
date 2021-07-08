@@ -5,35 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20210524082943_TaskScheduler.cs" />
-    <Compile Include="Migrations\20210524082943_TaskScheduler.Designer.cs" />
-    <Compile Include="Migrations\20210608025919_TaskScheduler2.cs" />
-    <Compile Include="Migrations\20210608025919_TaskScheduler2.Designer.cs" />
-    <Compile Include="Migrations\20210612142951_TaskScheduler4.cs" />
-    <Compile Include="Migrations\20210612142951_TaskScheduler4.Designer.cs" />
-    <Compile Include="Migrations\20210613112554_TaskScheduler5.cs" />
-    <Compile Include="Migrations\20210613112554_TaskScheduler5.Designer.cs" />
-    <Compile Include="Migrations\20210613114139_TaskScheduler6.cs" />
-    <Compile Include="Migrations\20210613114139_TaskScheduler6.Designer.cs" />
-    <Compile Include="Migrations\20210705120435_TaskScheduler7.cs" />
-    <Compile Include="Migrations\20210705120435_TaskScheduler7.Designer.cs" />
-    <Compile Include="Migrations\TaskSchedulerDbContextModelSnapshot.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.3.21201.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.3.21201.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.3.21201.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.0.0-preview.3.21201.2-06" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="5.2.2" />
   </ItemGroup>
 
   <ItemGroup>

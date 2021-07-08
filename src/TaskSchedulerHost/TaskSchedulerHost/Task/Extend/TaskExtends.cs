@@ -33,7 +33,7 @@ namespace TaskSchedulerHost.Task.Extend
             //任务配置参数
             if (configs != null && configs.Count > 0)
             {
-                args.Add(String.Join(",", configs.Select(n => n.Key + ":" + n.Value)));
+                args.Add(String.Join(",", configs.Select(n => Convert.ToBase64String(Encoding.UTF8.GetBytes(n.Key)) + ":" + Convert.ToBase64String(Encoding.UTF8.GetBytes(n.Value)))));
             }
 
             try
