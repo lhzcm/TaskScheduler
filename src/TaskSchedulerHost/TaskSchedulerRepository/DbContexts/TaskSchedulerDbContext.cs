@@ -13,11 +13,12 @@ namespace TaskSchedulerRepository.DbContexts
             //数据库迁移命令：Add-Migration InitialCreate；Update-Database
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.UseIdentityColumns(1,1);
+            //modelBuilder.UseIdentityColumns(1,1);
+            modelBuilder.ForSqlServerUseIdentityColumns();
+           
             modelBuilder.Entity<TaskInfo>().Property(l => l.WriteTime).HasDefaultValueSql("getdate()");
             modelBuilder.Entity<TaskInfo>().Property(l => l.UpdateTime).HasDefaultValueSql("getdate()");
             modelBuilder.Entity<TaskInfo>().Property(l => l.TaskGuid).HasDefaultValueSql("newid()");

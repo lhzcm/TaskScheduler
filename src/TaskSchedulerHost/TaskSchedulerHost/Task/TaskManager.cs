@@ -153,10 +153,17 @@ namespace TaskSchedulerHost.Task
             if (_tasks.Count > 0)
                 return;
 
-            using (var scope = serverProvider.CreateScope())
+            try
             {
-                var taskManager = new TaskManager(scope.ServiceProvider.GetService<TaskRepository>());
-                taskManager.ReFulsh();
+                using (var scope = serverProvider.CreateScope())
+                {
+                    var taskManager = new TaskManager(scope.ServiceProvider.GetService<TaskRepository>());
+                    taskManager.ReFulsh();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + ex.StackTrace);
             }
         }
     }

@@ -20,6 +20,11 @@ namespace TaskSchedulerHost.Task
             if (logInfo == null)
                 return;
 
+            if (logInfo.Message == null)
+            {
+                logInfo.Message = "[null]";
+            }
+
             lock (_obj)
             {
                 _logQueue.Add(logInfo);

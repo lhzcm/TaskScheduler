@@ -84,7 +84,7 @@ namespace TaskSchedulerHost.Task
                     Console.WriteLine(ex.Message + ex.StackTrace);
                     _log4.LogError(ex.Message + ex.StackTrace);
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
             }
         }
 
