@@ -19,6 +19,7 @@ namespace TaskSchedulerHost.Controllers
         private TaskCommandRepository _repository;
         private ILogger<TaskCommandController> _logger;
         private TaskManager _manager;
+        private int userid;
 
         public TaskCommandController(TaskCommandRepository repository, ILogger<TaskCommandController> logger, TaskManager manager)
         {
@@ -35,6 +36,7 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost("Add")]
         public Result Add([FromForm] int taskId, [FromForm] string description, [FromForm] string command)
         {
+            
             if (command == "quit")
             {
                 return Fail("添加失败，quit为系统命令，无法手动添加");
