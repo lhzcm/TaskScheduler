@@ -21,3 +21,4 @@ src/TaskSchedulerHost/TaskSchedulerTest/bin/
 
 src/TaskSchedulerVueWeb/node_modules
 src/TaskSchedulerVueWeb/dist
+/src/TaskSchedulerHost/packages

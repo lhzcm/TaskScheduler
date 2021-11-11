@@ -83,7 +83,6 @@ namespace TaskSchedulerRepository.Repositorys
 
         public virtual int Update(Expression<Func<TEntity, bool>> whereCase, Expression<Func<TEntity, TEntity>> updateColumn)
         {
-           
             return ((EntityQueryable<TEntity>)_db.Set<TEntity>().Where(whereCase)).Update(updateColumn);
         }
 
