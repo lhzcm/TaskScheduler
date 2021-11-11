@@ -24,6 +24,7 @@ namespace TaskSchedulerHost.Controllers
         private Config _config;
         private ILogger<TaskController> _logger;
         private TaskManager _manager;
+        private HandleAccess _access;
         public TaskController(TaskRepository repository, Config config, ILogger<TaskController> logger, TaskManager manager)
         {
             this._repository = repository;
@@ -41,6 +42,11 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
+                if ((GetAccess(Id) & HandleAccess.RunTask) != HandleAccess.RunTask)
+                {
+                    return Fail("您还未拥有权限操作");
+                }
+
                 var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
                 if (task == null)
                 {
@@ -103,7 +109,7 @@ namespace TaskSchedulerHost.Controllers
         /// <param name="name">任务名称</param>
         /// <param name="file">任务程序集zip包</param>
         [HttpPost("Add")]
-        public Result Add([FromForm]string name, [FromForm]IFormFile file)
+        public Result Add([FromForm] string name, [FromForm] IFormFile file)
         {
             try
             {
@@ -132,7 +138,7 @@ namespace TaskSchedulerHost.Controllers
                         archive.ExtractToDirectory(path);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _repository.DbContext.Database.RollbackTransaction();
                     if (System.IO.Directory.Exists(path))
@@ -162,7 +168,7 @@ namespace TaskSchedulerHost.Controllers
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _repository.DbContext.Database.RollbackTransaction();
                     if (System.IO.Directory.Exists(path))
@@ -228,7 +234,7 @@ namespace TaskSchedulerHost.Controllers
             try
             {
                 var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
-               return Success(task);
+                return Success(task);
             }
             catch (Exception ex)
             {
@@ -246,6 +252,11 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
+                if ((GetAccess(Id) & HandleAccess.DeleteTask) != HandleAccess.DeleteTask)
+                {
+                    return Fail("您还未拥有权限操作");
+                }
+
                 var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
                 if (task != null && task.IsRuning)
                 {
@@ -268,7 +279,7 @@ namespace TaskSchedulerHost.Controllers
                     {
                         _repository.DbContext.Database.RollbackTransaction();
                         _logger.LogError(ex.Message + ex.StackTrace);
-                        return Fail("删除失败, 删除文件夹（"+path+"）失败！");
+                        return Fail("删除失败, 删除文件夹（" + path + "）失败！");
                     }
                 }
                 _repository.DbContext.Database.CommitTransaction();
@@ -292,7 +303,12 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                TaskInfo task = _manager.GetTasks(n=>n.Id == Id).FirstOrDefault();
+                if ((GetAccess(Id) & HandleAccess.UpdateTask) != HandleAccess.UpdateTask)
+                {
+                    return Fail("您还未拥有权限操作");
+                }
+
+                TaskInfo task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
                 if (task == null)
                 {
                     return Fail("上传更新失败，没有找到改任务");
@@ -364,7 +380,7 @@ namespace TaskSchedulerHost.Controllers
                 }
 
                 task.UpdateTime = DateTime.Now;
-                _repository.Update(n => n.Id == task.Id, n=> new TaskInfo { UpdateTime = DateTime.Now});
+                _repository.Update(n => n.Id == task.Id, n => new TaskInfo { UpdateTime = DateTime.Now });
                 return Success(task, "更新成功");
             }
             catch (Exception ex)

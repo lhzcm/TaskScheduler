@@ -45,11 +45,13 @@ namespace TaskSchedulerHost
             services.AddScoped<LogRepository>();
             services.AddScoped<TaskCommandRepository>();
             services.AddScoped<TaskConfigRepository>();
+            services.AddScoped<TaskManageRepository>();
             services.AddControllers();
             services.AddScoped<TaskManager>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c => {
+            services.AddSwaggerGen(c =>
+            {
 
                 //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -92,7 +94,7 @@ namespace TaskSchedulerHost
 
             app.UseRouting();
 
-            
+
 
             app.UseAuthorization();
 
