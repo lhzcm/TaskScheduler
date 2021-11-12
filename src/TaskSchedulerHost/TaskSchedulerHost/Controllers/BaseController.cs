@@ -11,6 +11,32 @@ namespace TaskSchedulerHost.Controllers
 {
     public abstract class BaseController : ControllerBase
     {
+        private UserInfo _user;
+
+        public new UserInfo User 
+        {
+           
+            get
+            {
+                if (_user != null)
+                {
+                    return _user;
+                }
+                object user = null;
+                if (HttpContext.Items.TryGetValue("user", out user))
+                {
+                    _user = (user as UserInfo) ?? new UserInfo();
+                }
+                else
+                {
+                    _user = new UserInfo();
+                }
+                return _user;
+            }
+        }
+
+        public int UserId => User.Id;
+
         protected Result Fail(string msg, object data = null)
         {
             return new Result { Code = Code.Fail, Msg = msg, Data = data };
@@ -20,12 +46,6 @@ namespace TaskSchedulerHost.Controllers
         {
             return new Result { Code = Code.Success, Msg = msg, Data = data };
         }
-
-        protected UserInfo user = new UserInfo()
-        {
-            Id = 33316,
-            Password = "36965816"
-        };
 
         /// <summary>
         /// 获取用户对任务的管理权限
