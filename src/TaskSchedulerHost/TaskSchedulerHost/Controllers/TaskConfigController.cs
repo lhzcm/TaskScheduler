@@ -35,7 +35,7 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost]
         public Result Add([FromForm] int taskId, [FromForm] string key, [FromForm] string value)
         {
-            if (!GetAccess(user.Id, taskId, HandleAccess.HandleConfig))
+            if (!GetAccess(User.Id, taskId, HandleAccess.HandleConfig))
             {
                 return Fail("您还未拥有权限操作");
             }
@@ -80,7 +80,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                if (!GetAccess(user.Id, taskId, HandleAccess.HandleConfig))
+                if (!GetAccess(User.Id, taskId, HandleAccess.HandleConfig))
                 {
                     return Fail("您还未拥有权限操作");
                 }
