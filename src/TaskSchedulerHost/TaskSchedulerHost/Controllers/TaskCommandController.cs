@@ -36,7 +36,11 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost("Add")]
         public Result Add([FromForm] int taskId, [FromForm] string description, [FromForm] string command)
         {
-            
+            if (!GetAccess(user.Id, taskId, HandleAccess.HandleCommand))
+            {
+                return Fail("您还未拥有权限操作");
+            }
+
             if (command == "quit")
             {
                 return Fail("添加失败，quit为系统命令，无法手动添加");
@@ -72,6 +76,11 @@ namespace TaskSchedulerHost.Controllers
         [HttpGet("{taskId}")]
         public Result List(int taskId)
         {
+            if (!GetAccess(user.Id, taskId, HandleAccess.HandleCommand))
+            {
+                return Fail("您还未拥有权限操作");
+            }
+
             try
             {
                 var list = _repository.Find(n=>n.TaskId == taskId);
@@ -92,6 +101,11 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost("Command")]
         public Result Command([FromForm] int taskId, [FromForm] int tcid)
         {
+            if (!GetAccess(user.Id, taskId, HandleAccess.HandleCommand))
+            {
+                return Fail("您还未拥有权限操作");
+            }
+
             try
             {
                 TaskCommandInfo taskCommand;

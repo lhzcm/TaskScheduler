@@ -116,7 +116,7 @@ namespace TaskSchedulerHost.Controllers
         /// <param name="access">权限</param>
         /// <returns></returns>
         [HttpPatch]
-        public Result UpdateAccess([FromForm] int userId, [FromForm] int taskId, [FromForm] List<int> access)
+        public Result UpdateAccess([FromForm] int userId, [FromForm] int taskId, [FromForm] int access)
         {
             if (userId <= 0)
             {
@@ -134,21 +134,7 @@ namespace TaskSchedulerHost.Controllers
                     return Fail("更新失败，该用户没有次任务权限");
                 }
 
-                HandleAccess access_update = HandleAccess.SelectTask;
-                if (access.Exists(n => n == 1))
-                    access_update |= HandleAccess.AddTask;
-                if (access.Exists(n => n == 2))
-                    access_update |= HandleAccess.UpdateTask;
-                if (access.Exists(n => n == 4))
-                    access_update |= HandleAccess.DeleteTask;
-                if (access.Exists(n => n == 8))
-                    access_update |= HandleAccess.RunTask;
-                if (access.Exists(n => n == 16))
-                    access_update |= HandleAccess.HandleCommand;
-                if (access.Exists(n => n == 32))
-                    access_update |= HandleAccess.HandleConfig;
-
-                _repository.Update(n => n.UserId == userId && n.TaskId == taskId, n => new TaskManage { Access = access_update });
+                _repository.Update(n => n.UserId == userId && n.TaskId == taskId, n => new TaskManage { Access = (HandleAccess)access });
                 return Success(manage, "更新成功");
             }
             catch (Exception ex)

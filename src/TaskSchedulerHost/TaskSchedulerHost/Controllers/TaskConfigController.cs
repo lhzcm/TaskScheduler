@@ -35,6 +35,11 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost]
         public Result Add([FromForm] int taskId, [FromForm] string key, [FromForm] string value)
         {
+            if (!GetAccess(user.Id, taskId, HandleAccess.HandleConfig))
+            {
+                return Fail("您还未拥有权限操作");
+            }
+
             if (key == null || value == null)
             {
                 return Fail("添加配置失败,Key和Value都不能为空");
@@ -75,6 +80,11 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
+                if (!GetAccess(user.Id, taskId, HandleAccess.HandleConfig))
+                {
+                    return Fail("您还未拥有权限操作");
+                }
+
                 var list = _repository.Find(n => n.TaskId == taskId);
                 return Success(list);
             }
@@ -90,7 +100,7 @@ namespace TaskSchedulerHost.Controllers
         /// </summary>
         /// <param name="tcid">配置id</param>
         [HttpDelete]
-        public Result Del([FromForm]int tcid)
+        public Result Del([FromForm] int tcid)
         {
             try
             {
