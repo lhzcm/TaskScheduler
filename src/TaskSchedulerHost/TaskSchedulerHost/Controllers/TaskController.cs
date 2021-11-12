@@ -13,11 +13,13 @@ using Microsoft.Extensions.Logging;
 using TaskSchedulerHost.Task;
 using System.Diagnostics;
 using TaskSchedulerHost.Task.Extend;
+using TaskSchedulerHost.Filter;
 
 namespace TaskSchedulerHost.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Login]
     public class TaskController : BaseController
     {
         private TaskRepository _repository;

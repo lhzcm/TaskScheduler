@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskSchedulerHost.Filter;
 using TaskSchedulerHost.Models;
 using TaskSchedulerHost.Task;
 using TaskSchedulerHost.Task.Extend;
@@ -14,6 +15,7 @@ namespace TaskSchedulerHost.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Login]
     public class TaskCommandController : BaseController
     {
         private TaskCommandRepository _repository;
