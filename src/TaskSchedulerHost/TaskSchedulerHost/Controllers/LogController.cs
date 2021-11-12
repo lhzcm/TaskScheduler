@@ -27,7 +27,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                if (!GetAccess(user.Id, taskId, HandleAccess.SelectTask))
+                if (!GetAccess(User.Id, taskId, HandleAccess.SelectTask))
                 {
                     return Fail("您还未拥有权限操作");
                 }
