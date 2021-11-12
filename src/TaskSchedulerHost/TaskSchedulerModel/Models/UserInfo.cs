@@ -20,6 +20,8 @@ namespace TaskSchedulerModel.Models
         [Required]
         public string Password { get; set; }
 
-
+        [Column(TypeName = "bit")]
+        [Required]
+        public bool Super { get; set; }
     }
 }
