@@ -42,7 +42,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                if ((GetAccess(Id) & HandleAccess.RunTask) != HandleAccess.RunTask)
+                if (!GetAccess(user.Id, Id, HandleAccess.RunTask))
                 {
                     return Fail("您还未拥有权限操作");
                 }
@@ -83,6 +83,11 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
+                if (!GetAccess(user.Id, Id, HandleAccess.RunTask))
+                {
+                    return Fail("您还未拥有权限操作");
+                }
+
                 var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
                 if (task == null)
                 {
@@ -233,6 +238,11 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
+                if (!GetAccess(user.Id, Id, HandleAccess.SelectTask))
+                {
+                    return Fail("您还未拥有权限操作");
+                }
+
                 var task = _manager.GetTasks(n => n.Id == Id).FirstOrDefault();
                 return Success(task);
             }
@@ -252,7 +262,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                if ((GetAccess(Id) & HandleAccess.DeleteTask) != HandleAccess.DeleteTask)
+                if (!GetAccess(user.Id, Id, HandleAccess.DeleteTask))
                 {
                     return Fail("您还未拥有权限操作");
                 }
@@ -303,7 +313,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                if ((GetAccess(Id) & HandleAccess.UpdateTask) != HandleAccess.UpdateTask)
+                if (!GetAccess(user.Id, Id, HandleAccess.UpdateTask))
                 {
                     return Fail("您还未拥有权限操作");
                 }

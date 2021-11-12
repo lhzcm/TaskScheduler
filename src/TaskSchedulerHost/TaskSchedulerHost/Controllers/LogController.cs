@@ -27,7 +27,7 @@ namespace TaskSchedulerHost.Controllers
         {
             try
             {
-                if ((GetAccess(taskId) & HandleAccess.SelectTask) != HandleAccess.SelectTask)
+                if (!GetAccess(user.Id, taskId, HandleAccess.SelectTask))
                 {
                     return Fail("您还未拥有权限操作");
                 }
@@ -41,14 +41,6 @@ namespace TaskSchedulerHost.Controllers
                 _logger.LogError(ex.Message + ex.StackTrace);
                 return Fail("系统错误");
             }
-
-            //TaskManage user = new TaskManage();
-            //user.Access = HandleAccess.AddTask | HandleAccess.UpdateTask | HandleAccess.DeleteTask;
-
-            //if ((user.Access & HandleAccess.AddTask) == HandleAccess.AddTask)
-            //{
-
-            //}
         }
     }
 }
