@@ -41,7 +41,7 @@ namespace TaskSchedulerHost.Controllers
 
             string token = UserUtility.GetTokenById(user.Id);
             Response.Cookies.Append("token", token);
-            _cache.Set<UserInfo>("user:" + user.Id, user);
+            _cache.Set<UserInfo>("user:" + user.Id, user, new TimeSpan(2, 0, 0));
 
             return Success(new { Id = user.Id, Name = user.Name });
         }

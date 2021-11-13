@@ -15,6 +15,7 @@ using System.Reflection;
 using System.IO;
 using TaskSchedulerHost.Task;
 using TaskSchedulerRepository.Repositorys;
+using TaskSchedulerHost.Middleware;
 
 namespace TaskSchedulerHost
 {
@@ -46,6 +47,7 @@ namespace TaskSchedulerHost
             services.AddScoped<TaskCommandRepository>();
             services.AddScoped<TaskConfigRepository>();
             services.AddScoped<TaskManageRepository>();
+            services.AddScoped<UserInfoRepository>();
             services.AddControllers();
             services.AddScoped<TaskManager>();
 
@@ -91,6 +93,9 @@ namespace TaskSchedulerHost
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskScheduler");
             }
             );
+
+            // 获取登陆用户信息
+            app.UserIdentity();
 
             app.UseRouting();
 

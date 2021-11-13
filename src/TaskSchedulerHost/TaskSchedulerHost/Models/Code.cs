@@ -7,6 +7,7 @@ namespace TaskSchedulerHost.Models
 {
     public enum Code
     {
+        NoLogin = -2,
         Fail = -1,
         Success = 0
     }

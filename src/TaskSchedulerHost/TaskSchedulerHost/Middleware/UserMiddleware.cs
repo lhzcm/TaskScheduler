@@ -39,7 +39,7 @@ namespace TaskSchedulerHost.Middleware
                             if (user != null)
                             {
                                 httpContext.Items.Add("user", user);
-                                cache.Set<UserInfo>("user:" + user.Id, user, new DateTimeOffset().AddHours(2));
+                                cache.Set<UserInfo>("user:" + user.Id, user, new TimeSpan(2, 0, 0));
                             }
                         }
                     }

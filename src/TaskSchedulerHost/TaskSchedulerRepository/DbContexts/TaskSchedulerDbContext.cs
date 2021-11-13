@@ -15,7 +15,7 @@ namespace TaskSchedulerRepository.DbContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=192.168.0.251;Database=TaskScheduler;uid=test;pwd=test");
+            optionsBuilder.UseSqlServer("server=106.52.231.133;Database=TaskScheduler;uid=sa;pwd=Lkl888888");
         }
 
         public TaskSchedulerDbContext(DbContextOptions options) : base(options)

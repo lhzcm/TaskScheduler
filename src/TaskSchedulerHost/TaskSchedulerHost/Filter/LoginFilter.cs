@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskSchedulerHost.Models;
 
 namespace TaskSchedulerHost.Filter
 {
@@ -12,22 +14,12 @@ namespace TaskSchedulerHost.Filter
         {
             if (!context.HttpContext.Items.ContainsKey("user"))
             {
-                return next.Invoke();
+                return context.HttpContext.Response.WriteAsJsonAsync(new Result() { Code = Code.NoLogin, Msg="请先登陆！" });
             }
             else
             {
                 return next.Invoke();
             }
-        }
-
-        /// <summary>
-        /// 记录Http请求上下文
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public async System.Threading.Tasks.Task OnResourceExecutedAsync(ResourceExecutingContext context)
-        {
-
         }
     }
 }
