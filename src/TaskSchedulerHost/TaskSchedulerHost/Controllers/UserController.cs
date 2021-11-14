@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using TaskSchedulerHost.Extensions;
 using TaskSchedulerHost.Models;
 using TaskSchedulerHost.Utility;
 using TaskSchedulerModel.Models;
@@ -41,7 +42,8 @@ namespace TaskSchedulerHost.Controllers
 
             string token = UserUtility.GetTokenById(user.Id);
             Response.Cookies.Append("token", token);
-            _cache.Set<UserInfo>("user:" + user.Id, user, new TimeSpan(2, 0, 0));
+
+            _cache.SetUser(user);
 
             return Success(new { Id = user.Id, Name = user.Name });
         }

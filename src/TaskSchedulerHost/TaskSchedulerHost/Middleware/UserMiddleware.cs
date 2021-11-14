@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskSchedulerHost.Extensions;
 using TaskSchedulerHost.Models;
 using TaskSchedulerHost.Utility;
 using TaskSchedulerModel.Models;
@@ -18,6 +19,7 @@ namespace TaskSchedulerHost.Middleware
             return builder.Use( async (httpContext, next) =>
             {
                 int userid; DateTime time;
+
                 string token = httpContext.Request.Cookies["token"] ?? "";
                 try
                 {
@@ -25,22 +27,20 @@ namespace TaskSchedulerHost.Middleware
                     {
                         UserInfo user = null;
                         IMemoryCache cache = httpContext.RequestServices.GetService(typeof(IMemoryCache)) as IMemoryCache;
-                        if (cache != null)
+
+                        user = cache.GetUser(userid);
+                        if (user == null)
                         {
-                            user = cache.Get<UserInfo>("user:" + userid);
-                            if (user == null)
+                            UserInfoRepository repository = httpContext.RequestServices.GetService(typeof(UserInfoRepository)) as UserInfoRepository;
+                            if (repository != null)
                             {
-                                UserInfoRepository repository = httpContext.RequestServices.GetService(typeof(UserInfoRepository)) as UserInfoRepository;
-                                if (repository != null)
-                                {
-                                    user = repository.FindFirst(n => n.Id == userid);
-                                }
+                                user = repository.FindFirst(n => n.Id == userid);
+                                cache.SetUser(user);
                             }
-                            if (user != null)
-                            {
-                                httpContext.Items.Add("user", user);
-                                cache.Set<UserInfo>("user:" + user.Id, user, new TimeSpan(2, 0, 0));
-                            }
+                        }
+                        if (user != null)
+                        {
+                            httpContext.Items.Add("user", user);
                         }
                     }
                 }

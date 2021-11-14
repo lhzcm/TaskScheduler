@@ -8,5 +8,6 @@ namespace TaskSchedulerHost
     public class App
     {
         public static IServiceProvider Services { get; set; }
+        public static Config Config { get; set; }
     }
 }

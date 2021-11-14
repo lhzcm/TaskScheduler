@@ -26,6 +26,7 @@ namespace TaskSchedulerHost
         {
             Configuration = configuration;
             _config = configuration.GetSection("AppConfig").Get<Config>();
+            App.Config = _config;
         }
 
         public IConfiguration Configuration { get; }

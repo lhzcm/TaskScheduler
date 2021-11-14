@@ -29,7 +29,7 @@ namespace TaskSchedulerHost.Utility
         public static string GetTokenById(int Userid, DateTime AddTime)
         {
 
-            string md5Str = "www.lexun.com";
+            string md5Str = App.Config.TokenMD5Str;
             string time = AddTime.ToString("yyyy-MM-dd HH:mm:ss");
             md5Str += time;
             md5Str += Userid;
@@ -51,7 +51,7 @@ namespace TaskSchedulerHost.Utility
             Userid = 0;
             AddTime = DateTime.MinValue;
 
-            string md5Str = "www.lexun.com";
+            string md5Str = App.Config.TokenMD5Str;
             string[] strs = Token.Split('_');
             if (strs.Length != 3)
             {
@@ -90,5 +90,6 @@ namespace TaskSchedulerHost.Utility
             }
             return strBuilder.ToString();
         }
+
     }
 }

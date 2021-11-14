@@ -10,6 +10,7 @@
     <Content Remove="App\7c8f032d72864f0aa986fc1c2a7e0c61\**" />
     <EmbeddedResource Remove="App\7c8f032d72864f0aa986fc1c2a7e0c61\**" />
     <None Remove="App\7c8f032d72864f0aa986fc1c2a7e0c61\**" />
+    <None Remove="Extensions \" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,4 +35,7 @@
     <ProjectReference Include="..\TaskScheduler\TaskScheduler.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions \" />
+  </ItemGroup>
 </Project>

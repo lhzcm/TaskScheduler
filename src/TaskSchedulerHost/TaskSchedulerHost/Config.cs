@@ -31,5 +31,10 @@ namespace TaskSchedulerHost
         /// 跨域地址
         /// </summary>
         public string CORS { get; set; }
+
+        /// <summary>
+        /// Token MD5加密添加字符串
+        /// </summary>
+        public string TokenMD5Str { get; set; }
     }
 }
