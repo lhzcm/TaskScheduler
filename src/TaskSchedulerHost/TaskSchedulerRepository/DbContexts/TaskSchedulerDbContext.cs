@@ -39,6 +39,8 @@ namespace TaskSchedulerRepository.DbContexts
             modelBuilder.Entity<TaskConfig>().Property(l => l.WriteTime).HasDefaultValueSql("getdate()");
             modelBuilder.Entity<TaskConfig>().HasIndex(n => n.TaskId);
 
+            modelBuilder.Entity<UserInfo>().Property(l => l.WriteTime).HasDefaultValueSql("getdate()");
+
         }
 
         public virtual DbSet<TaskInfo> TaskInfos { get; set; }

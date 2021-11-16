@@ -23,5 +23,8 @@ namespace TaskSchedulerModel.Models
         [Column(TypeName = "bit")]
         [Required]
         public bool Super { get; set; }
+
+        [Column(TypeName = "datetime")]
+        public DateTime WriteTime { get; set; }
     }
 }

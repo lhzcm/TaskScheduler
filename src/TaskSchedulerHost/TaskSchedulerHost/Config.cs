@@ -36,5 +36,10 @@ namespace TaskSchedulerHost
         /// Token MD5加密添加字符串
         /// </summary>
         public string TokenMD5Str { get; set; }
+
+        /// <summary>
+        /// Token 过期天数
+        /// </summary>
+        public int TokenDays { get; set; }
     }
 }

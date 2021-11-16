@@ -70,7 +70,17 @@ namespace TaskSchedulerHost.Utility
             {
                 return false;
             }
+            //判断Token是否过期
+            if (AddTime.AddDays(App.Config.TokenDays) < DateTime.Now)
+            {
+                return false;
+            }
             return true;
+        }
+
+        public static string EncryptPassword(string Password)
+        {
+            return ToMD5("www.lexun.com_2021_" + Password);
         }
 
         /// <summary>
