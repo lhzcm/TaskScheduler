@@ -14,6 +14,8 @@ using TaskSchedulerRepository.Repositorys;
 
 namespace TaskSchedulerHost.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class UserController : BaseController
     {
         private UserInfoRepository _repository;
@@ -30,22 +32,30 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost("login")]
         public Result Login([FromForm] int Userid, [FromForm] string Password)
         {
-             var user = _repository.FindFirst(n => n.Id == Userid);
-            if (user == null)
+            try
             {
-                return Fail("登录失败，用户不存在!");
+                var user = _repository.FindFirst(n => n.Id == Userid);
+                if (user == null)
+                {
+                    return Fail("登录失败，用户不存在!");
+                }
+                if (user.Password != Password)
+                {
+                    return Fail("登录失败，登录密码错误!");
+                }
+
+                string token = UserUtility.GetTokenById(user.Id);
+                Response.Cookies.Append("token", token);
+
+                _cache.SetUser(user);
+
+                return Success(new { Id = user.Id, Name = user.Name });
             }
-            if (user.Password != Password)
+            catch (Exception ex)
             {
-                return Fail("登录失败，登录密码错误!");
+                _logger.LogError(ex.Message + ex.StackTrace);
+                return Fail("系统错误");
             }
-
-            string token = UserUtility.GetTokenById(user.Id);
-            Response.Cookies.Append("token", token);
-
-            _cache.SetUser(user);
-
-            return Success(new { Id = user.Id, Name = user.Name });
         }
 
         

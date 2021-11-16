@@ -16,7 +16,7 @@ namespace TaskSchedulerModel.Models
         [Required]
         public string Name { get; set; }
 
-        [Column(TypeName = "varchar(18)")]
+        [Column(TypeName = "char(32)")]
         [Required]
         public string Password { get; set; }
 
