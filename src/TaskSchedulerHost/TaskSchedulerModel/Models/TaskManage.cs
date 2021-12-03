@@ -33,5 +33,11 @@ namespace TaskSchedulerModel.Models
 
         [Column(TypeName = "int")]
         public HandleAccess Access { get; set; }
+
+        /// <summary>
+        /// 任务名称
+        /// </summary>
+        [NotMapped]
+        public string TaskName { get; set; }
     }
 }

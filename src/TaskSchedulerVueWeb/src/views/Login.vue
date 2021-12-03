@@ -34,6 +34,7 @@
 <script>
 
 import userApi from '../api/user.js'
+import userInfo from '../utils/user.js'
 export default {
     data() {
         return {
@@ -61,6 +62,7 @@ export default {
                      this.$message.success(res.msg);
                      this.$message.success("登录成功");
                      this.$router.push("TaskList");
+                     userInfo.User = res.data;
                 }else{
                     this.$message.error(res.msg);
                 }})
