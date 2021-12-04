@@ -51,6 +51,7 @@
 
 <script>
 // import bus from "../common/bus";
+import user from "../utils/user";
 export default {
     data() {
         return {
@@ -151,6 +152,16 @@ export default {
                 // }
             ]
         };
+    },
+    created: async function(){
+        var User = await user.GetUserInfo();
+        if(User && User.super){
+            this.items.push({
+                    icon: "el-icon-lx-cascades",
+                    index: "UserList",
+                    title: "用户列表"
+                })
+        }
     },
     computed: {
         onRoutes() {

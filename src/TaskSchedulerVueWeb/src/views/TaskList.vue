@@ -324,7 +324,7 @@ export default {
         getData() {
             taskApi.taskList(this.query).then(res => {
                 this.tableData = res.data.list;
-                this.pageTotal = res.data.total || 50;
+                this.pageTotal = res.data.total || 0;
             });
         },
         // 触发搜索按钮

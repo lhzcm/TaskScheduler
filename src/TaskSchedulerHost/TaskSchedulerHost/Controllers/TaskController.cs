@@ -23,16 +23,18 @@ namespace TaskSchedulerHost.Controllers
     public class TaskController : BaseController
     {
         private TaskRepository _repository;
+        private TaskManageRepository _mapository;
         private Config _config;
         private ILogger<TaskController> _logger;
         private TaskManager _manager;
         private HandleAccess _access;
-        public TaskController(TaskRepository repository, Config config, ILogger<TaskController> logger, TaskManager manager)
+        public TaskController(TaskRepository repository, Config config, ILogger<TaskController> logger, TaskManager manager,TaskManageRepository mapository)
         {
             this._repository = repository;
             this._config = config;
             this._logger = logger;
             this._manager = manager;
+            this._mapository = mapository;
         }
 
         /// <summary>
@@ -118,6 +120,10 @@ namespace TaskSchedulerHost.Controllers
         [HttpPost("Add")]
         public Result Add([FromForm] string name, [FromForm] IFormFile file)
         {
+            if (!User.Super)
+            {
+                return Fail("添加任务失败，你没有权限操作");
+            }
             try
             {
                 if (name == null)
@@ -194,7 +200,11 @@ namespace TaskSchedulerHost.Controllers
                 _repository.DbContext.Database.CommitTransaction();
 
                 _manager.Add(task);
-                return Success(task, "添加成功");
+
+                var config = new TaskManage { UserId = User.Id, TaskId = task.Id, Access = (HandleAccess)64 };
+                _mapository.Insert(config);
+
+                    return Success(task, "添加成功");
             }
             catch (Exception ex)
             {
@@ -215,11 +225,11 @@ namespace TaskSchedulerHost.Controllers
                 List<TaskInfo> list;
                 if (name == null)
                 {
-                    list = _manager.GetTasks().ToList();
+                    list = _mapository.DbContext.TaskManages.Where(n => n.UserId == User.Id).Join<TaskManage, TaskInfo, int, TaskInfo>(_manager.GetTasks(), n => n.TaskId, n => n.Id, (n, y) => y).ToList();
                 }
                 else
                 {
-                    list = _manager.GetTasks().Where(n => n.Name.Contains(name)).ToList();
+                    list = _mapository.DbContext.TaskManages.Where(n => n.UserId == User.Id).Join<TaskManage, TaskInfo, int, TaskInfo>(_manager.GetTasks().Where(n => n.Name.Contains(name)), n => n.TaskId, n => n.Id, (n, y) => y).ToList();
                 }
                 var result = list.Skip((page - 1) * pagesize).Take(pagesize).ToList();
                 return Success(new { list = result, total = list.Count });

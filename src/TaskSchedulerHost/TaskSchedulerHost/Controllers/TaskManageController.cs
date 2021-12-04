@@ -18,28 +18,44 @@ namespace TaskSchedulerHost.Controllers
     public class TaskManageController : BaseController
     {
         private TaskManageRepository _repository;
+        private TaskRepository _taskrepository;
         private ILogger<TaskController> _logger;
         private TaskManager _manager;
+
+        public TaskManageController(TaskManageRepository repository, TaskRepository taskrepository, ILogger<TaskController> logger, TaskManager manager)
+        {
+            this._repository = repository;
+            this._taskrepository = taskrepository;
+            this._logger = logger;
+            this._manager = manager;
+        }
 
         /// <summary>
         /// 获取用户所有任务权限
         /// </summary>
         [HttpGet("{page}/{pagesize}/{userId?}")]
-        public Result TaskList(int page, int pagesize, int? userId)
+        public Result TaskList(int page = 1, int pagesize = 10, int? userId = 0)
         {
             try
             {
-                List<TaskManage> list;
+                List<TaskManage> managelist;
                 if (userId <= 0)
                 {
-                    list = _repository.FindAll();
+                    managelist = _repository.FindAll();
                 }
                 else
                 {
-                    list = _repository.Find(n => n.UserId == userId).ToList();
+                    managelist = _repository.Find(n => n.UserId == userId);
                 }
-                var result = list.Skip((page - 1) * pagesize).Take(pagesize).ToList();
-                return Success(new { list = result, total = list.Count });
+                if (managelist != null && managelist.Count > 0)
+                {
+                    foreach (var manage in managelist)
+                    {
+                        manage.TaskName = _taskrepository.FindFirst(n => n.Id == manage.TaskId).Name;
+                    }
+                }
+                var result = managelist.Skip((page - 1) * pagesize).Take(pagesize).ToList();
+                return Success(new { list = result, total = managelist.Count });
             }
             catch (Exception ex)
             {
@@ -118,7 +134,7 @@ namespace TaskSchedulerHost.Controllers
         /// <param name="access">权限</param>
         /// <returns></returns>
         [HttpPatch]
-        public Result UpdateAccess([FromForm] int userId, [FromForm] int taskId, [FromForm] int access)
+        public Result UpdateAccess([FromForm] int userId, [FromForm] int taskId, [FromForm] HandleAccess access)
         {
             if (userId <= 0)
             {
@@ -136,7 +152,7 @@ namespace TaskSchedulerHost.Controllers
                     return Fail("更新失败，该用户没有次任务权限");
                 }
 
-                _repository.Update(n => n.UserId == userId && n.TaskId == taskId, n => new TaskManage { Access = (HandleAccess)access });
+                _repository.Update(n => n.UserId == userId && n.TaskId == taskId, n => new TaskManage { Access = access | n.Access });
                 return Success(manage, "更新成功");
             }
             catch (Exception ex)
