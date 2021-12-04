@@ -12,9 +12,12 @@ namespace TaskSchedulerHost.Task
 {
     public class TaskLogger
     {
-        private static object _obj = new object();
         private static readonly List<LogInfo> _logQueue = new List<LogInfo>();
 
+        /// <summary>
+        /// 把日志信息添加到队列
+        /// </summary>
+        /// <param name="logInfo">日志信息</param>
         public void Add(LogInfo logInfo)
         {
             if (logInfo == null)
@@ -25,25 +28,33 @@ namespace TaskSchedulerHost.Task
                 logInfo.Message = "[null]";
             }
 
-            lock (_obj)
+            lock (_logQueue)
             {
                 _logQueue.Add(logInfo);
             }
         }
 
+        /// <summary>
+        /// 把日志信息从队列中移除
+        /// </summary>
+        /// <param name="logInfo">日志信息</param>
         public void Remove(LogInfo logInfo)
         {
-            lock (_obj)
+            lock (_logQueue)
             {
                 _logQueue.Remove(logInfo);
             }
         }
 
+        /// <summary>
+        /// 把日志信息列表从队列中移除
+        /// </summary>
+        /// <param name="logInfos">日志列表</param>
         public void Remove(List<LogInfo> logInfos)
         {
             if (logInfos == null || logInfos.Count <= 0)
                 return;
-            lock (_obj)
+            lock (_logQueue)
             {
                 foreach (var item in logInfos)
                 {
@@ -51,10 +62,14 @@ namespace TaskSchedulerHost.Task
                 }
             }
         }
-
+        /// <summary>
+        /// 获取队列中的日志
+        /// </summary>
+        /// <returns>日志列表</returns>
         public List<LogInfo> GetLogs()
         {
             return _logQueue.ToList();
         }
+
     }
 }

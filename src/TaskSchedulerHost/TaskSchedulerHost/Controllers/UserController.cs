@@ -80,8 +80,8 @@ namespace TaskSchedulerHost.Controllers
         /// <summary>
         /// 添加用户
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Password"></param>
+        /// <param name="Name">用户名称</param>
+        /// <param name="Password">用户密码</param>
         /// <returns></returns>
         [HttpPost("Add")]
         [Login]
@@ -115,7 +115,7 @@ namespace TaskSchedulerHost.Controllers
         /// <summary>
         /// 用户列表
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userId">用户id</param>
         /// <returns></returns>
         [HttpGet("{userId?}")]
         public Result UserList(int userId)

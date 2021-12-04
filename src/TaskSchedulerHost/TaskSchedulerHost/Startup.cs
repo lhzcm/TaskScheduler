@@ -51,6 +51,7 @@ namespace TaskSchedulerHost
             services.AddScoped<UserInfoRepository>();
             services.AddControllers();
             services.AddScoped<TaskManager>();
+            services.AddSingleton<TaskLoggerCache>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
