@@ -34,4 +34,6 @@
     <ProjectReference Include="..\TaskSchedulerRepository\TaskSchedulerRepository.csproj" />
     <ProjectReference Include="..\TaskScheduler\TaskScheduler.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

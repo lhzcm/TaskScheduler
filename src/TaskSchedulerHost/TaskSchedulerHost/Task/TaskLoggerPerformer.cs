@@ -16,7 +16,6 @@ namespace TaskSchedulerHost.Task
     {
         private TaskLogger _logger = new TaskLogger();
         private ILogger<TaskLoggerPerformer> _log4;
-        private TaskLoggerCache _logCache = new TaskLoggerCache();
 
         public bool IsStopNamedPipe { get; set; }
         public bool IsStopLogin { get; set; }
@@ -50,7 +49,6 @@ namespace TaskSchedulerHost.Task
                             string str = reader.ReadToEnd();
                             LogInfo loginfo = LHZ.FastJson.JsonConvert.Deserialize<LogInfo>(str);
                             _logger.Add(loginfo);
-                            _logCache.AddToCache(loginfo);
                         }
                     }
 

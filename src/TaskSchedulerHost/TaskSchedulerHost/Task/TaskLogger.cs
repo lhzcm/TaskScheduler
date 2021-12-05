@@ -13,6 +13,7 @@ namespace TaskSchedulerHost.Task
     public class TaskLogger
     {
         private static readonly List<LogInfo> _logQueue = new List<LogInfo>();
+        private TaskLoggerCache _logCache = new TaskLoggerCache();
 
         /// <summary>
         /// 把日志信息添加到队列
@@ -31,6 +32,7 @@ namespace TaskSchedulerHost.Task
             lock (_logQueue)
             {
                 _logQueue.Add(logInfo);
+                _logCache.AddToCache(logInfo);
             }
         }
 

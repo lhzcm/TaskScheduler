@@ -58,7 +58,9 @@ namespace TaskSchedulerHost.Task
             {
                 return new List<LogInfo>();
             }
-            return queue.ToList();
+            var list = queue.ToList();
+            list.Reverse();
+            return list;
         }
     }
 }

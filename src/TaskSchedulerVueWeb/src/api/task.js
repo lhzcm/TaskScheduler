@@ -60,9 +60,9 @@ export default {
             data: qs.stringify(query)
         });
     },
-    getLogList : query => {
+    getLogListByCache : query => {
         return request({
-            url: 'Log/'+ query.taskId + '/' + query.page + '/' + query.pageSize,
+            url: 'Log/'+ query.taskId,
             method: 'get'
         });
     }

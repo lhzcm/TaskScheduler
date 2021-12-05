@@ -426,11 +426,11 @@ export default {
         taskLog(row){
             this.logVisible = true;
             var that = this;
-            taskApi.getLogList({taskId:row.id, page:1, pageSize:100}).then((res)=>{
+            taskApi.getLogListByCache({taskId:row.id}).then((res)=>{
                 that.logList = res.data.list;
             })
             this.tickerLog = setInterval(()=>{
-                    taskApi.getLogList({taskId:row.id, page:1, pageSize:100}).then((res)=>{
+                    taskApi.getLogListByCache({taskId:row.id}).then((res)=>{
                     that.logList = res.data.list;
                 })
             },2000)
